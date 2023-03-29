@@ -1,9 +1,10 @@
-import { CssBaseline } from "@mui/material"
+import { CssBaseline, ThemeProvider } from "@mui/material"
+import { raicesTheme } from "./raicesTheme"
 
 
 export const AppTheme = ({children}) => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={ raicesTheme}>
 
         <CssBaseline />
 

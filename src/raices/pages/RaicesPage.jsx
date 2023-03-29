@@ -1,7 +1,13 @@
+import { RaicesLayout } from "../layout/RaicesLayout"
+import { Typography } from '@mui/material'
 
 
 export const RaicesPage = () => {
   return (
-    <div>RaicesPage</div>
+    <RaicesLayout>
+
+      <Typography>Hola</Typography>
+
+    </RaicesLayout>
   )
 }
