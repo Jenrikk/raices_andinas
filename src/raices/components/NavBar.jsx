@@ -19,8 +19,8 @@ export const NavBar = () => {
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'flex-end',
-                    alignContent: 'space-around'
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
                 }}
             >
                 <Stack direction="row" 
@@ -30,7 +30,7 @@ export const NavBar = () => {
                         backgroundColor: 'secondary.main', 
                         color: 'inherit',
                         height: `calc(100% - 22px)`,
-                        marginTop: '-22px',
+                        marginTop: 0,
                      }}
                 >
                     <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
