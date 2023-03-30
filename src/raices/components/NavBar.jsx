@@ -1,4 +1,4 @@
-import { ContactPhone, ContactPhoneOutlined,  LoginOutlined, Search } from '@mui/icons-material'
+import { ContactPhoneOutlined,  LoginOutlined, Search } from '@mui/icons-material'
 import { AppBar, Grid, Button, Divider, IconButton, InputBase, Toolbar, Typography } from '@mui/material'
 import { Box, Stack } from '@mui/system'
 
@@ -13,13 +13,20 @@ export const NavBar = () => {
     return (
         <AppBar
             position="fixed"
-            sx={{ display: 'flex', alignItems: 'flex-end', height: 126, width: '100%'}}
+            sx={{ display: 'flex', 
+                alignItems: 'flex-end', 
+                height: 126, 
+                width: '100%'}}
         >
+            {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                Raices Andinas
+            </Typography> */}
+
             <Toolbar 
                 sx={{
                     height: '100%',
                     width: '66%',
-                    padding: '0px 0px',
+                    pl: 0,
                     display: 'flex',
                     flexWrap: 'wrap',
                     // flexDirection: 'column',
