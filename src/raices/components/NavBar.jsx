@@ -1,28 +1,62 @@
-import { ContactPhoneOutlined,  LoginOutlined, Search } from '@mui/icons-material'
-import { AppBar, Grid, Button, Divider, IconButton, InputBase, Toolbar, Typography } from '@mui/material'
+import { ContactPhoneOutlined, LoginOutlined, Search } from '@mui/icons-material'
+import { AppBar, Grid, Button, Divider, IconButton, InputBase, Toolbar, Typography, styled } from '@mui/material'
 import { Box, Stack } from '@mui/system'
+import { raicesTheme } from '../../theme/raicesTheme'
 
-const inputCSS = {
-    width: '100%',
-    fontSize: '14px',
-    border: '1px solid red',
-    borderColor: 'red'
-}
+const StyledStackYellow = styled(Stack)(({ theme }) => ({
+    backgroundColor: theme.palette.secondary.main,
+    color: 'inherit',
+    height: `calc(33%)`,
+    marginTop: 0,
+    alignSelf: 'flex-start'
+}));
+const StyledStackRed = styled(StyledStackYellow)(({ theme }) => ({
+    backgroundColor: theme.palette.error.main,
+    color: theme.palette.primary.main,
+    height: `calc(33%)`,
+    alignSelf: 'flex-end',
+    flexGrow: 1,
+    justifyContent: 'flex-end'
+}));
 
 export const NavBar = () => {
     return (
         <AppBar
             position="fixed"
-            sx={{ display: 'flex', 
-                alignItems: 'flex-end', 
-                height: 126, 
-                width: '100%'}}
+            sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                // alignItems: 'flex-end',
+                justifyContent: 'space-between',
+                height: 126,
+                width: '100%'
+            }}
         >
             {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 Raices Andinas
             </Typography> */}
+            
+            {/* <AppBar position="static">
+                <Toolbar>
+                    <Box
+                        component="img"
+                        sx={{
+                            height: 64,
+                        }}
+                        alt="Your logo."
+                        src={Logo}
+                    />
+                    ...
+                </Toolbar>
+            </AppBar> */}
+            <Box
+                component="img"
+                sx={{ height: 125 }}
+                alt="Logo"
+                src="https://images.g2crowd.com/uploads/product/image/large_detail/large_detail_e7b8a53bf9ee1f0023a60ce6644dd5f8/flaticon.jpg"
+            />
 
-            <Toolbar 
+            <Toolbar disableGutters
                 sx={{
                     height: '100%',
                     width: '66%',
@@ -35,16 +69,10 @@ export const NavBar = () => {
                     alignContents: 'space-between',
                 }}
             >
-                
-                <Stack direction="row" 
-                    divider={<Divider orientation="vertical" flexItem />} 
+
+                <StyledStackYellow direction="row"
+                    divider={<Divider orientation="vertical" flexItem />}
                     spacing={1}
-                    sx={{
-                        backgroundColor: 'secondary.main', 
-                        color: 'inherit',
-                        height: `calc(33%)`,
-                        marginTop: 0,
-                     }}
                 >
                     <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
                         <Search />
@@ -53,30 +81,23 @@ export const NavBar = () => {
                             placeholder="algo"
                         />
                     </Box>
-                    <Button variant="outlined" 
+                    <Button variant="text"
                         startIcon={<ContactPhoneOutlined />}
                         sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                     >
                         Contacto
                     </Button>
-                    <Button variant="outlined" 
+                    <Button variant="text"
                         startIcon={<LoginOutlined />}
                         sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                     >
                         Acceso usuarios
                     </Button>
-                </Stack>
-               
-                <Stack direction="row" 
-                    divider={<Divider orientation="vertical" flexItem />} 
+                </StyledStackYellow>
+
+                <StyledStackRed direction="row"
+                    divider={<Divider orientation="vertical" flexItem />}
                     spacing={1}
-                    sx={{
-                        backgroundColor: 'secondary.main', 
-                        color: 'inherit',
-                        height: `calc(33%)`,
-                        marginTop: 0,
-                        alignSelf: 'flex-end'
-                     }}
                 >
                     <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
                         <Search />
@@ -85,20 +106,20 @@ export const NavBar = () => {
                             placeholder="algo"
                         />
                     </Box>
-                    <Button variant="outlined" 
+                    <Button variant="text"
                         startIcon={<ContactPhoneOutlined />}
                         sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                     >
                         Contacto
                     </Button>
-                    <Button variant="outlined" 
+                    <Button variant="text"
                         startIcon={<LoginOutlined />}
                         sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                     >
                         Acceso usuarios
                     </Button>
-                </Stack>
-                
+                </StyledStackRed>
+
 
             </Toolbar>
 
