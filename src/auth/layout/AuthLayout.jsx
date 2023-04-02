@@ -1,35 +1,51 @@
-import { Grid, Typography } from '@mui/material'
+import { Grid, Paper, Typography } from '@mui/material'
 import React from 'react'
 
-export const AuthLayout = ({children, title=''}) => {
+export const AuthLayout = ({ children, title = '' }) => {
   return (
-    <Grid 
-    container
-    spacing={0}
-    direction="column"
-    alignItems="center"
-    justifyContent="center"
-    sx={{ minHeight: '100vh', backgroundColor: 'primary.main', padding: 4 }}
-  >
+    <Grid container component="main" sx={{ height: '100vh' }}>
+       <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'url(https://source.unsplash.com/random)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+
+
+      <Grid item xs={12} sm={8} md={5} 
+        component={Paper} 
+        elevation={6} square
+        alignItems="center" justifyContent="center"
+      >
 
         <Grid item
           className='box-shadow'
-          xs={ 3 }
           sx={{
-              width: { md: 450},
-              backgroundColor: 'white', 
-              padding: 3, 
-              borderRadius: 2}}
+              my: 38,
+              mx: 10,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
         >
 
-            <Typography variant='h5' sx={{ mb: 1}}>{ title }</Typography>
+          <Typography variant='h5' sx={{ mb: 1 }}>{title}</Typography>
 
-            {children}
+          {children}
 
         </Grid>
 
-    </Grid>
+      </Grid>
 
+    </Grid>
 
   )
 }

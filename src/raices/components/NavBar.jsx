@@ -1,7 +1,8 @@
 import { ContactPhoneOutlined, LoginOutlined, Search } from '@mui/icons-material'
 import { AppBar, Grid, Button, Divider, IconButton, InputBase, Toolbar, Typography, styled } from '@mui/material'
 import { Box, Stack } from '@mui/system'
-import { raicesTheme } from '../../theme/raicesTheme'
+import { Link } from 'react-router-dom'
+
 
 const StyledStackYellow = styled(Stack)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.main,
@@ -24,7 +25,7 @@ export const NavBar = () => {
         <AppBar
             position="fixed"
             sx={{ height: 126, width: '100%' }}
-        >           
+        >
 
             <Toolbar disableGutters
                 sx={{
@@ -35,14 +36,14 @@ export const NavBar = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                 <Box
+                <Box
                     component="img"
                     sx={{ height: 125 }}
                     alt="Logo"
                     src="https://images.g2crowd.com/uploads/product/image/large_detail/large_detail_e7b8a53bf9ee1f0023a60ce6644dd5f8/flaticon.jpg"
                 />
 
-                <Box component="div" 
+                <Box component="div"
                     sx={{
                         // / flexGrow: 1,
                         height: '100%',
@@ -60,7 +61,7 @@ export const NavBar = () => {
                             <Search />
                             <InputBase
                                 sx={{ ml: 1, }}
-                                placeholder="algo"
+                                placeholder="Buscador"
                             />
                         </Box>
                         <Button variant="text"
@@ -81,37 +82,22 @@ export const NavBar = () => {
                         divider={<Divider orientation="vertical" flexItem />}
                         spacing={1}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
-                            <Search />
-                            <InputBase
-                                sx={{ ml: 1, }}
-                                placeholder="algo"
-                            />
-                        </Box>
-                        <Button variant="text"
-                            startIcon={<ContactPhoneOutlined />}
+                        <Button component={Link} to='/' 
                             sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                         >
-                            Contacto
+                            Quiénes somos
                         </Button>
-                        <Button variant="text"
-                            startIcon={<ContactPhoneOutlined />}
+                        <Button component={Link} to='/' 
                             sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                         >
-                            Contacto
+                            Proyectos
                         </Button>
-                        <Button variant="text"
-                            startIcon={<ContactPhoneOutlined />}
+                        <Button component={Link} to='/' 
                             sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                         >
-                            Contacto
+                            Eventos 
                         </Button>
-                        <Button variant="text"
-                            startIcon={<LoginOutlined />}
-                            sx={{ backgroundColor: 'transparent', color: 'inherit' }}
-                        >
-                            Acceso usuarios
-                        </Button>
+                        
                     </StyledStackRed>
 
                 </Box>
