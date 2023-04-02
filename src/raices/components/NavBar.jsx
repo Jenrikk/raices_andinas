@@ -24,7 +24,7 @@ export const NavBar = () => {
     return (
         <AppBar
             position="fixed"
-            sx={{ height: 126, width: '100%' }}
+            sx={{ height: 130, width: '100%' }}
         >
 
             <Toolbar disableGutters

@@ -7,6 +7,17 @@ export const RaicesPage = () => {
     <RaicesLayout>
 
       <Typography>Hola</Typography>
+      <Typography>Hola</Typography>
+      <Typography>Hola</Typography>
+      <Typography>Hola</Typography>
+      <Typography>Hola</Typography>
+      <Typography>Hola</Typography>
+      <Typography>Hola</Typography>
+      <Typography>Hola</Typography>
+      <Typography>Hola</Typography>
+      <Typography>Hola</Typography>
+      <Typography>Hola</Typography>
+      <Typography>Hola</Typography>
 
     </RaicesLayout>
   )
