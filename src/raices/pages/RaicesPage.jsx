@@ -1,15 +1,17 @@
 import { RaicesLayout } from "../layout/RaicesLayout"
 import { Typography } from '@mui/material'
-import { LoadingView } from "../views"
+import { LoadingView, MainView } from "../views"
 
 
 export const RaicesPage = () => {
   return (
     <RaicesLayout>
 
-      {/* <Typography>Hola</Typography> */}
 
-      <LoadingView />
+      {/* <LoadingView /> */}
+
+
+      <MainView />
       
 
     </RaicesLayout>
