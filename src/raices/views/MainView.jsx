@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material"
-import { EventListComponent, HeaderComponent } from "../components"
+import { EventListComponent, HeaderComponent, ProjectListComponent } from "../components"
 
 
 
@@ -14,6 +14,7 @@ export const MainView = () => {
         <EventListComponent />
 
         {/* ProjectsListComponent */}
+        <ProjectListComponent />
 
         {/* UpcomingEventListComponent */}
 
