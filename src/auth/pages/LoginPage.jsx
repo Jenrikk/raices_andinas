@@ -1,19 +1,24 @@
 import { Google } from '@mui/icons-material'
 import { Button, Grid, TextField, Typography, Link } from '@mui/material'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { checkingAuthentication } from '../../store/auth/thunks';
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
 
+  const {status} = useSelector(state => state.auth);
+
   const { email, password, onInputChange} = useForm({
     email: 'hola@google.com',
     password: '123456',
   })
+
+  // pequena validacion para deshabilitar boton login:
+  const inAuthenticating = useMemo( () => status === 'checking', [status] );
 
   const onSubmit = (ev) => {
     ev.preventDefault();
@@ -51,7 +56,14 @@ export const LoginPage = () => {
           </Grid>
           <Grid container  sx={{ mb: 2, maxWidth:400,  }}>
             <Grid item xs={12} sm={12} md={12}>
-              <Button type="submit" variant='contained' fullWidth sx={{ backgroundColor: 'secondary.main'}}>Login</Button>
+              <Button 
+                disabled={ inAuthenticating }
+                type="submit" 
+                variant='contained' 
+                fullWidth sx={{ backgroundColor: 'secondary.main'}}
+              >
+                Login
+              </Button>
             </Grid>
           </Grid>
 
