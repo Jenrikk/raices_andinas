@@ -4,8 +4,11 @@ import React from 'react'
 import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
+import { useDispatch } from 'react-redux';
+import { checkingAuthentication } from '../../store/auth/thunks';
 
 export const LoginPage = () => {
+  const dispatch = useDispatch();
 
   const { email, password, onInputChange} = useForm({
     email: 'hola@google.com',
@@ -14,7 +17,8 @@ export const LoginPage = () => {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
-    console.log({email, password});
+    // console.log({email, password});
+    dispatch(checkingAuthentication(email, password));
   }
 
 
