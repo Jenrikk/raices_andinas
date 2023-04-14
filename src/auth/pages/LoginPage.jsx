@@ -5,14 +5,14 @@ import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkingAuthentication } from '../../store/auth/thunks';
+import { checkingAuthentication, startLoginWithEmailPassword } from '../../store/auth/thunks';
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
 
   const {status} = useSelector(state => state.auth);
 
-  const { email, password, onInputChange} = useForm({
+  const { email, password, formState, onInputChange} = useForm({
     email: 'hola@google.com',
     password: '123456',
   })
@@ -23,7 +23,7 @@ export const LoginPage = () => {
   const onSubmit = (ev) => {
     ev.preventDefault();
     // console.log({email, password});
-    dispatch(checkingAuthentication(email, password));
+    dispatch(startLoginWithEmailPassword(email, password));
   }
 
 
