@@ -1,5 +1,5 @@
 import { Google } from '@mui/icons-material'
-import { Button, Grid, TextField, Typography, Link } from '@mui/material'
+import { Button, Grid, TextField, Typography, Link, Alert } from '@mui/material'
 import React, { useMemo } from 'react'
 import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from '../layout/AuthLayout';
@@ -10,7 +10,7 @@ import { checkingAuthentication, startLoginWithEmailPassword } from '../../store
 export const LoginPage = () => {
   const dispatch = useDispatch();
 
-  const {status} = useSelector(state => state.auth);
+  const {status, errorMessage} = useSelector(state => state.auth);
 
   const { email, password, formState, onInputChange} = useForm({
     email: 'hola@google.com',
@@ -43,7 +43,7 @@ export const LoginPage = () => {
               onChange={onInputChange}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={12} sx={{ mt: 1, mb: 2 }}>
+          <Grid item xs={12} sm={12} md={12} sx={{ mt: 1, mb: 1 }}>
             <TextField
               label="Password"
               type="password"
@@ -54,6 +54,13 @@ export const LoginPage = () => {
               onChange={onInputChange}
             />
           </Grid>
+          
+          <Grid container display={!!errorMessage ? '' : 'none'} sx={{mb: 1}}>
+            <Grid item xs={12} >
+              <Alert severity='error'>{errorMessage}</Alert>
+            </Grid>
+          </Grid>
+
           <Grid container  sx={{ mb: 2, maxWidth:400,  }}>
             <Grid item xs={12} sm={12} md={12}>
               <Button 

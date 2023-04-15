@@ -17,7 +17,7 @@ export const loginWithEmailPassword = async ({correo, password}) => {
         }
         
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return { ok: false, errorMessage: error.message };
     }
 

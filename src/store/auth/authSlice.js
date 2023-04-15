@@ -17,12 +17,12 @@ export const authSlice = createSlice({
             state.displayName = payload.displayName;
             state.errorMessage = null;
          },
-        logout: (state, payload ) => {
+        logout: (state, {payload} ) => {
             state.status = 'not-authenticated'; //  'checking' , 'not-authenticated' , 'authenticated'
             state.uid = null;
             state.email = null;
             state.displayName = null;
-            state.errorMessage = payload;
+            state.errorMessage = payload.errorMessage;
          },
         checkingCredentials: (state ) => {
             state.status = 'checking';
