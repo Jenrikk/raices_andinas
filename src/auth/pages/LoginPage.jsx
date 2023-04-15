@@ -5,7 +5,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkingAuthentication, startLoginWithEmailPassword } from '../../store/auth/thunks';
+import { startLoginWithEmailPassword } from '../../store/auth/thunks';
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
