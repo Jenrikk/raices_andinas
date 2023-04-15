@@ -1,6 +1,7 @@
-import { ContactPhoneOutlined, LoginOutlined, Search } from '@mui/icons-material'
+import { ContactPhoneOutlined, LoginOutlined, LogoutOutlined, Search } from '@mui/icons-material'
 import { AppBar, Grid, Button, Divider, IconButton, InputBase, Toolbar, Typography, styled } from '@mui/material'
 import { Box, Stack } from '@mui/system'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 
@@ -21,6 +22,10 @@ const StyledStackRed = styled(StyledStackYellow)(({ theme }) => ({
 }));
 
 export const NavBar = () => {
+    const {status, email} = useSelector( state => state.auth);
+    const nombre = email.split('@')[0];
+    // console.log(nombre);
+
     return (
         <AppBar
             position="fixed"
@@ -71,10 +76,10 @@ export const NavBar = () => {
                             Contacto
                         </Button>
                         <Button variant="text"
-                            startIcon={<LoginOutlined />}
+                            startIcon={(status === 'authenticated') ? <LogoutOutlined /> : <LoginOutlined />}
                             sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                         >
-                            Acceso usuarios
+                            {(status === 'authenticated') ? nombre : 'Acceso usuarios'}
                         </Button>
                     </StyledStackYellow>
 
