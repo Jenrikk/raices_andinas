@@ -75,11 +75,12 @@ export const NavBar = () => {
                         >
                             Contacto
                         </Button>
+                        <Typography display={(status === 'authenticated') ? '' : 'none'} variant="h6" component='div'>Hola {nombre}</Typography>
                         <Button variant="text"
                             startIcon={(status === 'authenticated') ? <LogoutOutlined /> : <LoginOutlined />}
                             sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                         >
-                            {(status === 'authenticated') ? nombre : 'Acceso usuarios'}
+                            {(status === 'authenticated') ? 'Cerrar sesion' : 'Acceso usuarios'}
                         </Button>
                     </StyledStackYellow>
 
