@@ -3,7 +3,7 @@ import React from 'react'
 
 export const AuthLayout = ({ children, title = '' }) => {
   return (
-    <Grid container component="main" sx={{ height: '100vh' }}>
+    <Grid container component="main" sx={{ height: '100vh' }} className='animate__animated animate__fadeIn'>
        <Grid
           item
           xs={false}

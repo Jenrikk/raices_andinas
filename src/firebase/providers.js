@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { FirebaseAuth } from './config'
 
 
@@ -21,4 +21,10 @@ export const loginWithEmailPassword = async ({correo, password}) => {
         return { ok: false, errorMessage: error.message };
     }
 
+}
+
+
+export const logoutFirebase = async () => {
+
+    return await FirebaseAuth.signOut();
 }

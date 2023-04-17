@@ -1,8 +1,9 @@
 import { ContactPhoneOutlined, LoginOutlined, LogoutOutlined, Search } from '@mui/icons-material'
 import { AppBar, Grid, Button, Divider, IconButton, InputBase, Toolbar, Typography, styled } from '@mui/material'
 import { Box, Stack } from '@mui/system'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { startLogout } from '../../store/auth/thunks';
 
 
 const StyledStackYellow = styled(Stack)(({ theme }) => ({
@@ -22,9 +23,16 @@ const StyledStackRed = styled(StyledStackYellow)(({ theme }) => ({
 }));
 
 export const NavBar = () => {
-    const {status, email} = useSelector( state => state.auth);
+    const { status, email } = useSelector(state => state.auth);
     const nombre = email.split('@')[0];
-    // console.log(nombre);
+
+    const dispatch = useDispatch();
+
+    const onLogout = () => {
+        // console.log('saliendo siu')
+        dispatch(startLogout());
+    }
+
 
     return (
         <AppBar
@@ -75,35 +83,51 @@ export const NavBar = () => {
                         >
                             Contacto
                         </Button>
-                        <Typography display={(status === 'authenticated') ? '' : 'none'} variant="h6" component='div'>Hola {nombre}</Typography>
-                        <Button variant="text"
-                            startIcon={(status === 'authenticated') ? <LogoutOutlined /> : <LoginOutlined />}
-                            sx={{ backgroundColor: 'transparent', color: 'inherit' }}
+                        <Typography display={(status === 'authenticated') ? '' : 'none'} 
+                            variant="h6" component='div' sx={{ display: 'flex', alignItems: 'center',}} 
                         >
-                            {(status === 'authenticated') ? 'Cerrar sesion' : 'Acceso usuarios'}
-                        </Button>
+                            Hola {nombre}
+                        </Typography>
+                        
+                        {
+                            (status === 'authenticated')
+                                ? <Button variant="text"
+                                    startIcon={<LogoutOutlined />}
+                                    sx={{ backgroundColor: 'transparent', color: 'inherit' }}
+                                    onClick={onLogout}
+                                    >
+                                    Cerrar sesion
+                                    </Button>
+                                : <Button variant="text"
+                                    startIcon={ <LoginOutlined />}
+                                    sx={{ backgroundColor: 'transparent', color: 'inherit' }}
+                                    >
+                                    Acceso usuarios
+                                    </Button>
+
+                        }
                     </StyledStackYellow>
 
                     <StyledStackRed direction="row"
                         divider={<Divider orientation="vertical" flexItem />}
                         spacing={1}
                     >
-                        <Button component={Link} to='/' 
+                        <Button component={Link} to='/'
                             sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                         >
                             Quiénes somos
                         </Button>
-                        <Button component={Link} to='/' 
+                        <Button component={Link} to='/'
                             sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                         >
                             Proyectos
                         </Button>
-                        <Button component={Link} to='/' 
+                        <Button component={Link} to='/'
                             sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                         >
-                            Eventos 
+                            Eventos
                         </Button>
-                        
+
                     </StyledStackRed>
 
                 </Box>
