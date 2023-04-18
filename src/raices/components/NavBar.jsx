@@ -24,7 +24,7 @@ const StyledStackRed = styled(StyledStackYellow)(({ theme }) => ({
 
 export const NavBar = () => {
     const { status, email } = useSelector(state => state.auth);
-    const nombre = email.split('@')[0];
+    const nombre = email?.split('@')[0];
 
     const dispatch = useDispatch();
 
@@ -83,11 +83,11 @@ export const NavBar = () => {
                         >
                             Contacto
                         </Button>
-                        <Typography display={(status === 'authenticated') ? '' : 'none'} 
-                            variant="h6" component='div' sx={{ display: 'flex', alignItems: 'center',}} 
-                        >
-                            Hola {nombre}
-                        </Typography>
+                        <Box display={(status === 'authenticated') ? '' : 'none'} >
+                            <Typography variant="h6" component='div' sx={{ pt: 0.5}}>
+                                Hola {nombre}
+                            </Typography>
+                        </Box>
                         
                         {
                             (status === 'authenticated')
@@ -98,7 +98,7 @@ export const NavBar = () => {
                                     >
                                     Cerrar sesion
                                     </Button>
-                                : <Button variant="text"
+                                : <Button variant="text" component={Link} to='/auth/login'
                                     startIcon={ <LoginOutlined />}
                                     sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                                     >

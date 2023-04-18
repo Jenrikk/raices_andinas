@@ -1,13 +1,14 @@
 import { Google } from '@mui/icons-material'
 import { Button, Grid, TextField, Typography, Link, Alert } from '@mui/material'
 import React, { useMemo } from 'react'
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
 import { useDispatch, useSelector } from 'react-redux';
 import { startLoginWithEmailPassword } from '../../store/auth/thunks';
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const {status, errorMessage} = useSelector(state => state.auth);
@@ -24,6 +25,7 @@ export const LoginPage = () => {
     ev.preventDefault();
     // console.log({email, password});
     dispatch(startLoginWithEmailPassword(email, password));
+    navigate('/')
   }
 
 

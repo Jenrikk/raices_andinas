@@ -20,21 +20,21 @@ export const AppRouter = () => {
 
      
 
-      {
+      {/* {
         (status === 'authenticated') 
           ? <Route path="/*" element={ <RaicesRoutes /> } />
           : <Route path="/auth/*" element={ <AuthRoutes /> } />
       }
-        <Route path="/*" element={ <Navigate to='/auth/login' /> } />
+        <Route path="/*" element={ <Navigate to='/auth/login' /> } /> */}
 
 
 
 
       {/* Login */}
-      {/* <Route path="/auth/*" element={ <AuthRoutes /> } /> */}
+      <Route path="/auth/*" element={ <AuthRoutes /> } />
 
       {/* RaicesApp */}
-      {/* <Route path="/*" element={ <RaicesRoutes /> } /> */}
+      <Route path="/*" element={ <RaicesRoutes /> } />
 
     </Routes>
   )
