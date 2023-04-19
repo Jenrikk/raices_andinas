@@ -1,13 +1,20 @@
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typography, } from '@mui/material';
 import iguana from './../../assets/images/contemplative_reptile.jpg'
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { startAddNewEntry } from '../../store/entries/thunks';
 
 
 
 export const EventListComponent = () => {
 
     const {status} = useSelector(state => state.auth);
+
+    const dispatch = useDispatch();
+
+    const onClickNewEvent = () => {
+        dispatch(startAddNewEntry());
+    }
 
 
 
@@ -19,8 +26,9 @@ export const EventListComponent = () => {
                     Nuestros ultimos eventos
                 </Typography>
                 <Box display={(status === 'authenticated') ? '' : 'none'}>
-                    <Button component={Link} 
-                        to='/' 
+                    <Button component={Link}
+                        onClick={onClickNewEvent} 
+                        to='/auth/login' 
                         sx={{ 
                             backgroundColor: 'transparent', 
                             color: 'error.main', 

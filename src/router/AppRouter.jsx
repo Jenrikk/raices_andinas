@@ -4,6 +4,8 @@ import { AuthRoutes } from "../auth/routes/AuthRoutes"
 import { RaicesRoutes } from "../raices/routes/RaicesRoutes"
 import { CheckingAuth } from "../ui/components"
 import { useCheckAuth } from "../hooks"
+import { PublicRoute } from "./PublicRoute"
+import { AllEventsPage } from "../raices/pages/AllEventsPage"
 
 
 export const AppRouter = () => {
@@ -18,7 +20,28 @@ export const AppRouter = () => {
   return (
     <Routes>
 
+      {/* RaicesApp */}
+      <Route path="/*" element={ <RaicesRoutes /> } />
      
+      {/* Login */}
+      <Route path="/auth/*" 
+        element={ 
+          <PublicRoute>
+            <AuthRoutes />
+          </PublicRoute>
+        }
+      />
+
+      {/* Events */}
+      <Route path="event">
+        <Route index element={<AllEventsPage />} />
+        
+      </Route>
+
+
+
+
+
 
       {/* {
         (status === 'authenticated') 
@@ -26,15 +49,6 @@ export const AppRouter = () => {
           : <Route path="/auth/*" element={ <AuthRoutes /> } />
       }
         <Route path="/*" element={ <Navigate to='/auth/login' /> } /> */}
-
-
-
-
-      {/* Login */}
-      <Route path="/auth/*" element={ <AuthRoutes /> } />
-
-      {/* RaicesApp */}
-      <Route path="/*" element={ <RaicesRoutes /> } />
 
     </Routes>
   )
