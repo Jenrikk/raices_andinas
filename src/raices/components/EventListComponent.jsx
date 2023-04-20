@@ -10,12 +10,6 @@ export const EventListComponent = () => {
 
     const {status} = useSelector(state => state.auth);
 
-    const dispatch = useDispatch();
-
-    const onClickNewEvent = () => {
-        dispatch(startAddNewEntry());
-    }
-
 
 
     return (
@@ -27,8 +21,7 @@ export const EventListComponent = () => {
                 </Typography>
                 <Box display={(status === 'authenticated') ? '' : 'none'}>
                     <Button component={Link}
-                        onClick={onClickNewEvent} 
-                        to='/auth/login' 
+                        to='/event/new' 
                         sx={{ 
                             backgroundColor: 'transparent', 
                             color: 'error.main', 

@@ -6,6 +6,8 @@ import { CheckingAuth } from "../ui/components"
 import { useCheckAuth } from "../hooks"
 import { PublicRoute } from "./PublicRoute"
 import { AllEventsPage } from "../raices/pages/AllEventsPage"
+import { EventRoutes } from "../raices/routes/EventRoutes"
+import { PrivateRoute } from "./PrivateRoute"
 
 
 export const AppRouter = () => {
@@ -35,6 +37,15 @@ export const AppRouter = () => {
       {/* Events */}
       <Route path="event">
         <Route index element={<AllEventsPage />} />
+
+        <Route path="/event/*" 
+          element={ 
+            <PrivateRoute>
+              <EventRoutes />
+            </PrivateRoute>
+          }
+        />
+        
         
       </Route>
 

@@ -122,7 +122,7 @@ export const NavBar = () => {
                         >
                             Proyectos
                         </Button>
-                        <Button component={Link} to='/'
+                        <Button component={Link} to='/event'
                             sx={{ backgroundColor: 'transparent', color: 'inherit' }}
                         >
                             Eventos
