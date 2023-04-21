@@ -4,7 +4,7 @@ import { Grid } from '@mui/material'
 
 export const FormView = ({ children}) => {
   return (
-    <Grid container component="main" sx={{ border: 1, mt: 9}}>
+    <Grid container component="main" sx={{ mt: 9}}>
 
         {/* postType='event' || postType='project' */}
         <FormComponent postType='event'/>
