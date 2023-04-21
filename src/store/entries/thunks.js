@@ -12,6 +12,7 @@ export const startAddNewEntry = () => {
 
         const newEntry = {
             title: '',
+            description: '',
             body: '',
             date: new Date().getTime(),
             imageUrls: [],
