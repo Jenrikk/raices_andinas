@@ -1,4 +1,6 @@
+import { LoginOutlined, Save } from '@mui/icons-material';
 import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
+import { useRef, useState } from 'react';
 // import { useQuill } from 'react-quilljs';
 // import 'quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
@@ -12,6 +14,15 @@ export const FormComponent = ({ postType }) => {
   //     toolbar: toolbar,
   //   }
   // }
+
+
+  const [content, setContent] = useState('');
+
+  const handleSave = () => {
+    console.log(content);
+    
+    
+  };
 
 
 
@@ -46,11 +57,17 @@ export const FormComponent = ({ postType }) => {
                   variant="outlined"
                 />
               </Grid>
+              
+              <Grid item>
+                <Button color='inherit' onClick={handleSave}>
+                  <Save />
+                </Button>
+              </Grid>
 
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
                 {/* <div ref={quillRef}>
                 </div> */}
-                <ReactQuill theme="snow" modules={modules}/> 
+                <ReactQuill theme="snow" modules={modules} onChange={setContent}/> 
               </Grid>
 
             </Grid>
