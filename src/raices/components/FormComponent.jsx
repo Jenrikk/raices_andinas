@@ -1,30 +1,26 @@
 import { LoginOutlined, Save } from '@mui/icons-material';
 import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
 import { useRef, useState } from 'react';
-// import { useQuill } from 'react-quilljs';
-// import 'quill/dist/quill.snow.css';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { modules } from '../../quill/modules'
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import { Tiptap } from '../../tiptap/Tiptap';
+
 
 export const FormComponent = ({ postType }) => {
-  // const {quill, quillRef } = useQuill();
-  // {
-  //   modules: {
-  //     toolbar: toolbar,
-  //   }
-  // }
-
 
   const [content, setContent] = useState('');
 
-  const handleSave = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     console.log(content);
-    
-    
   };
 
-
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+    ],
+    content: '<p>Hello World!</p>',
+  })
 
   return (
     <Grid container component='section' direction='row' sx={{ p: 1, }} >
@@ -35,46 +31,45 @@ export const FormComponent = ({ postType }) => {
         </Typography>
       </Grid>
 
-      <Grid container sx={{margin: 'auto', display: 'flex', justifyContent: 'center'}}>
+      <Grid container sx={{ margin: 'auto', display: 'flex', justifyContent: 'center' }}>
         <Paper elevation={7}
-          sx={{mt: 1, mb: 1,}}
+          sx={{ mt: 1, mb: 1, }}
         >
-          <Box component='form' sx={{margin: 2}}>
-            <Grid container sx={{display: 'flex', flexDirection:'column', alignItems: 'center'}}>
+          <Box component='form' sx={{ margin: 2 }} onSubmit={handleSubmit}>
+            <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+              <Grid item>
+                <Button color='inherit' type='submit'>
+                  <Save />
+                </Button>
+              </Grid>
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
                 <TextField
                   variant="outlined"
-                  label="Titulo"                
+                  label="Titulo"
                 />
 
               </Grid>
-              
+
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
                 <TextField
-                  label="Descripción" 
+                  label="Descripción"
                   multiline
                   rows={4}
                   variant="outlined"
                 />
               </Grid>
-              
-              <Grid item>
-                <Button color='inherit' onClick={handleSave}>
-                  <Save />
-                </Button>
-              </Grid>
+
 
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
-                {/* <div ref={quillRef}>
-                </div> */}
-                <ReactQuill theme="snow" modules={modules} onChange={setContent}/> 
+                { editor && <Tiptap editor={editor} /> }
               </Grid>
 
             </Grid>
           </Box>
         </Paper>
 
-     </Grid>  {/* end of  form container  */}
+      </Grid>  {/* end of  form container  */}
 
     </Grid>
   )
