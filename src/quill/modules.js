@@ -1,6 +1,7 @@
 
 export const modules =  {
     toolbar: [
+        [{ font: [] }],
       ['bold', 'italic', 'underline', 'strike'],
       [{ align: [] }],
     
@@ -11,6 +12,8 @@ export const modules =  {
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
       ['link', 'image', 'video'],
       [{ color: [] }, { background: [] }],
+      ["blockquote", "code-block"],
+      [{ script:  "sub" }, { script:  "super" }],
     
       ['clean']
     ]}
