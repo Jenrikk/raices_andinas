@@ -1,30 +1,63 @@
-import { LoginOutlined, Save } from '@mui/icons-material';
+import { Save } from '@mui/icons-material';
 import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
-import { useRef, useState } from 'react';
-// import { useQuill } from 'react-quilljs';
-// import 'quill/dist/quill.snow.css';
+import React, { useMemo, useRef, useState } from 'react';
+
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { modules } from '../../quill/modules'
+import { toolbarOptions } from '../../quill/moduleParts'
+import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
+import { FirebaseStorage } from '../../firebase/config';
 
 export const FormComponent = ({ postType }) => {
-  // const {quill, quillRef } = useQuill();
-  // {
-  //   modules: {
-  //     toolbar: toolbar,
-  //   }
-  // }
-
+  const quillRef = useRef();
 
   const [content, setContent] = useState('');
 
   const handleSave = () => {
     console.log(content);
+  };
 
-
+  const imageHandler = () => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+    input.addEventListener("change", async () => {
+      const editor = quillRef.current.getEditor();
+      const file = input.files[0];
+      const range = editor.getSelection(true);
+      try {
+        // File name: "image/Date.now()"
+        const storageRef = ref(
+          FirebaseStorage,
+          `image/${Date.now()}`
+        );
+        // Firebase Method : uploadBytes, getDownloadURL
+        await uploadBytes(storageRef, file).then((snapshot) => {
+          getDownloadURL(snapshot.ref).then((url) => {
+            // Inserta imageURL en el editor:
+            editor.insertEmbed(range.index, "image", url);
+            // Después de insertar la URL, mueva el cursor al espacio detrás de la imagen
+            editor.setSelection(range.index + 1);
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
   };
 
 
+  const modules = useMemo(() => {
+    return {
+      toolbar: {
+        container: toolbarOptions,
+        handlers: {
+          image: imageHandler,
+        },
+      },
+    };
+  }, []);
 
   return (
     <Grid container component='section' direction='row' sx={{ p: 1, }} >
@@ -47,7 +80,7 @@ export const FormComponent = ({ postType }) => {
                   <Save />
                 </Button>
               </Grid>
-              
+
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
                 <TextField
                   variant="outlined"
@@ -66,9 +99,8 @@ export const FormComponent = ({ postType }) => {
               </Grid>
 
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
-                {/* <div ref={quillRef}>
-                </div> */}
-                <ReactQuill theme="snow" modules={modules} onChange={setContent} />
+                
+                <ReactQuill theme="snow" modules={modules} onChange={setContent} ref={quillRef}/>
               </Grid>
 
             </Grid>
