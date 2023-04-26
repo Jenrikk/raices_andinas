@@ -9,7 +9,7 @@ import { toolbarOptions } from '../../quill/moduleParts'
 import ImageResize from 'quill-image-resize-module-react'
 Quill.register('modules/imageResize', ImageResize)
 
-import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
+import { uploadBytes, getDownloadURL, ref, listAll } from "firebase/storage";
 import { FirebaseStorage } from '../../firebase/config';
 import { useSelector } from 'react-redux';
 
@@ -20,9 +20,27 @@ export const FormComponent = ({ postType }) => {
 
   const [content, setContent] = useState('');
 
+  const [folders, setFolders] = useState([]);
+  const listRef = ref(FirebaseStorage, 'image')
+
   const handleSave = () => {
-    console.log(content);
+    // console.log(content);
+    listAll(listRef)
+  .then((res) => {
+    res.prefixes.forEach((folderRef) => {
+      // console.log(folderRef.name)
+      setFolders(folders.push(folderRef.name))
+    });
+    res.items.forEach((itemRef) => {
+      // All the items under listRef.
+    });
+  }).catch((error) => {
+    // Uh-oh, an error occurred!
+  });
+
+  console.log(folders)
   };
+  
 
   const imageHandler = () => {
     const input = document.createElement("input");
@@ -34,10 +52,10 @@ export const FormComponent = ({ postType }) => {
       const file = input.files[0];
       const range = editor.getSelection(true);
       try {
-        // File name: "image/Date.now()"
+        // File name: "image/event/Date.now()" || "image/project/Date.now()"
         const storageRef = ref(
           FirebaseStorage,
-          `image/${Date.now()}`
+          `image/${postType}/${Date.now()}`
         );
         // Firebase Method : uploadBytes, getDownloadURL
         await uploadBytes(storageRef, file).then((snapshot) => {
