@@ -1,10 +1,14 @@
-import { HourglassTop, Save } from '@mui/icons-material';
+import { Save } from '@mui/icons-material';
 import { Box, Button, CircularProgress, Grid, Paper, TextField, Typography } from '@mui/material'
 import React, { useMemo, useRef, useState } from 'react';
 
-import ReactQuill from 'react-quill';
+import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { toolbarOptions } from '../../quill/moduleParts'
+
+import ImageResize from 'quill-image-resize-module-react'
+Quill.register('modules/imageResize', ImageResize)
+
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
 import { FirebaseStorage } from '../../firebase/config';
 import { useSelector } from 'react-redux';
@@ -59,6 +63,10 @@ export const FormComponent = ({ postType }) => {
           image: imageHandler,
         },
       },
+      imageResize: {
+        // parchment: Quill.import('parchment'),
+        modules: [ 'Resize', 'DisplaySize' ]
+    }
     };
   }, []);
 
