@@ -15,40 +15,22 @@ export const startAddNewEntry = () => {
             description: '',
             body: '',
             date: new Date().getTime(),
-            imageUrls: [],
+            // imageUrls: [],
         }
 
         const newDoc = doc( collection(FirebaseDB, `${uid}/raices/entries`));
         await setDoc( newDoc, newEntry );
-
+        // add id property to newEntry
         newEntry.id = newDoc.id;
 
         dispatch(addNewEntry(newEntry));
 
     }
 }
-// export const startAddNewEntry = () => {
 
-//     return async(dispatch, getState) => {
 
-//         // uid
-//         const {uid} = getState().auth;
+export const startSavingStatus = () => {
+    
+}
 
-//         const newEntry = {
-//             title: '',
-//             body: '',
-//             date: new Date().getTime(),
-//             imageUrls: [],
-//         }
-
-//         const newDocResp = await addDoc(collection( FirebaseDB, `${ uid }`, "raices/entries"),{
-//             ...newEntry
-//         });
-
-//         console.log({newDocResp})
-
-//         // dispatch(newEntry)
-
-//     }
-// }
 

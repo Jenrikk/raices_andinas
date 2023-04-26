@@ -1,5 +1,5 @@
-import { Save } from '@mui/icons-material';
-import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
+import { HourglassTop, Save } from '@mui/icons-material';
+import { Box, Button, CircularProgress, Grid, Paper, TextField, Typography } from '@mui/material'
 import React, { useMemo, useRef, useState } from 'react';
 
 import ReactQuill from 'react-quill';
@@ -7,8 +7,11 @@ import 'react-quill/dist/quill.snow.css';
 import { toolbarOptions } from '../../quill/moduleParts'
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
 import { FirebaseStorage } from '../../firebase/config';
+import { useSelector } from 'react-redux';
 
 export const FormComponent = ({ postType }) => {
+  const {isSaving} = useSelector(state => state.raices);
+
   const quillRef = useRef();
 
   const [content, setContent] = useState('');
@@ -76,9 +79,14 @@ export const FormComponent = ({ postType }) => {
             <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
               <Grid item>
-                <Button color='inherit' onClick={handleSave}>
-                  <Save />
-                </Button>
+                {
+                  (isSaving === "loading")
+                    ? <CircularProgress color='error' size={30} />
+                    : <Button color='inherit' onClick={handleSave}>
+                      <Save />
+                    </Button>
+                }
+
               </Grid>
 
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
