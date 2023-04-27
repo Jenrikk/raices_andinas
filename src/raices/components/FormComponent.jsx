@@ -1,6 +1,6 @@
 import { Save } from '@mui/icons-material';
 import { Box, Button, CircularProgress, Grid, Paper, TextField, Typography } from '@mui/material'
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -20,25 +20,28 @@ export const FormComponent = ({ postType }) => {
 
   const [content, setContent] = useState('');
 
-  const [folders, setFolders] = useState([]);
+  const [folders, setFolders] = useState();
   const listRef = ref(FirebaseStorage, 'image')
-
-  const handleSave = () => {
-    // console.log(content);
+  useEffect(() => {
     listAll(listRef)
   .then((res) => {
     res.prefixes.forEach((folderRef) => {
       // console.log(folderRef.name)
-      setFolders(folders.push(folderRef.name))
-    });
-    res.items.forEach((itemRef) => {
-      // All the items under listRef.
+      setFolders(folderRef.name)
     });
   }).catch((error) => {
     // Uh-oh, an error occurred!
   });
 
-  console.log(folders)
+  }, [])
+  const objetito = {name: 'eee'}
+  console.log(folders);
+  console.log(objetito);
+  // const lastItem = folders[folders.length - 1];
+  // console.log(lastItem);
+
+  const handleSave = () => {
+    // console.log(content);
   };
   
 
