@@ -9,9 +9,10 @@ import { toolbarOptions } from '../../quill/moduleParts'
 import ImageResize from 'quill-image-resize-module-react'
 Quill.register('modules/imageResize', ImageResize)
 
-import { uploadBytes, getDownloadURL, ref, listAll } from "firebase/storage";
+import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
 import { FirebaseStorage } from '../../firebase/config';
 import { useSelector } from 'react-redux';
+import { useGetLastFolder } from '../../hooks';
 
 export const FormComponent = ({ postType }) => {
   const {isSaving} = useSelector(state => state.raices);
@@ -20,30 +21,13 @@ export const FormComponent = ({ postType }) => {
 
   const [content, setContent] = useState('');
 
-  const [folders, setFolders] = useState();
-  const listRef = ref(FirebaseStorage, 'image')
-  useEffect(() => {
-    listAll(listRef)
-  .then((res) => {
-    res.prefixes.forEach((folderRef) => {
-      // console.log(folderRef.name)
-      setFolders(folderRef.name)
-    });
-  }).catch((error) => {
-    // Uh-oh, an error occurred!
-  });
-
-  }, [])
-  const objetito = {name: 'eee'}
-  console.log(folders);
-  console.log(objetito);
-  // const lastItem = folders[folders.length - 1];
-  // console.log(lastItem);
 
   const handleSave = () => {
     // console.log(content);
   };
   
+  const {lastPossibleFolderPath} = useGetLastFolder(postType);
+  console.log(lastPossibleFolderPath);
 
   const imageHandler = () => {
     const input = document.createElement("input");
@@ -58,7 +42,7 @@ export const FormComponent = ({ postType }) => {
         // File name: "image/event/Date.now()" || "image/project/Date.now()"
         const storageRef = ref(
           FirebaseStorage,
-          `image/${postType}/${Date.now()}`
+          `${lastPossibleFolderPath}/${Date.now()}`
         );
         // Firebase Method : uploadBytes, getDownloadURL
         await uploadBytes(storageRef, file).then((snapshot) => {
@@ -121,9 +105,16 @@ export const FormComponent = ({ postType }) => {
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
                 <TextField
                   variant="outlined"
+                  label="Carpeta donde iran tus imagenes"
+                  value={lastPossibleFolderPath}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
+                <TextField
+                  variant="outlined"
                   label="Titulo"
                 />
-
               </Grid>
 
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
