@@ -15,6 +15,9 @@ import { useSelector } from 'react-redux';
 import { useGetLastFolder } from '../../hooks';
 
 export const FormComponent = ({ postType }) => {
+  const {lastPossibleFolderPath} = useGetLastFolder(postType);
+  console.log(lastPossibleFolderPath);
+  
   const {isSaving} = useSelector(state => state.raices);
 
   const quillRef = useRef();
@@ -23,11 +26,9 @@ export const FormComponent = ({ postType }) => {
 
 
   const handleSave = () => {
-    // console.log(content);
+    console.log(content);
   };
   
-  const {lastPossibleFolderPath} = useGetLastFolder(postType);
-  console.log(lastPossibleFolderPath);
 
   const imageHandler = () => {
     const input = document.createElement("input");
