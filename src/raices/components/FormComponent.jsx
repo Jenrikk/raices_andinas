@@ -1,6 +1,6 @@
 import { Save } from '@mui/icons-material';
 import { Box, Button, CircularProgress, Grid, Paper, TextField, Typography } from '@mui/material'
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -16,10 +16,6 @@ import { useGetLastFolder } from '../../hooks';
 
 export const FormComponent = ({ postType }) => {
   const {folderPath} = useGetLastFolder(postType);
-  console.log(folderPath);
-
-  const imageInputRef = useRef();
-  console.log(imageInputRef.current);
   
   const {isSaving} = useSelector(state => state.raices);
 
@@ -34,6 +30,9 @@ export const FormComponent = ({ postType }) => {
   
 
   const imageHandler = () => {
+    // get the path (value) set on the TextField with id="imagenPath"
+    const imagenPath = document.getElementById('imagenPath').value;
+
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
@@ -46,7 +45,7 @@ export const FormComponent = ({ postType }) => {
         // File name: "image/event/Date.now()" || "image/project/Date.now()"
         const storageRef = ref(
           FirebaseStorage,
-          `${folderPath}/${Date.now()}`
+          `${imagenPath}/${Date.now()}`
         );
         // Firebase Method : uploadBytes, getDownloadURL
         await uploadBytes(storageRef, file).then((snapshot) => {
@@ -108,7 +107,7 @@ export const FormComponent = ({ postType }) => {
 
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
                 <TextField
-                  ref={imageInputRef}
+                  id='imagenPath'
                   variant="outlined"
                   label="Carpeta donde iran tus imagenes"
                   value={folderPath}

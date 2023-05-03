@@ -4,24 +4,29 @@ import { useEffect, useState } from "react";
 
 export const useGetLastFolder = (postType) => {
 
-    const [folderPath, setFolderPath] = useState([]);
+    const [folderPath, setFolderPath] = useState('');
 
     const listRef = ref(FirebaseStorage, `image/${postType}`);
 
     useEffect(() => {
-        listAll(listRef)
-            .then((res) => {
-                const arrayFolders = res.prefixes.map((folderRef) => {
-                    return folderRef.name;
+        const getData = async () => {
+            await listAll(listRef)
+                .then((res) => {
+                    const arrayFolders = res.prefixes.map((folderRef) => {
+                        return folderRef.name;
+                    })
+                    // take last folder name of array, convert to number and add +1, then 
+                    // convert to string again.
+                    const lastFolder = (parseInt(arrayFolders[arrayFolders.length - 1]) + 1).toString();
+                    setFolderPath(`image/${postType}/${lastFolder}`);
                 })
-                // take last folder name of array, convert to number and add +1, then 
-                // convert to string again.
-                const lastFolder = (parseInt(arrayFolders[arrayFolders.length - 1]) + 1).toString();
-                setFolderPath(`image/${postType}/${lastFolder}`);
-            })
-            .catch((error) => {
-                // Uh-oh, an error occurred!
-            });
+                .catch((error) => {
+                    // Uh-oh, an error occurred!
+                    console.log(error)
+                });
+        }
+
+        getData();
 
     }, [])
 
