@@ -15,8 +15,11 @@ import { useSelector } from 'react-redux';
 import { useGetLastFolder } from '../../hooks';
 
 export const FormComponent = ({ postType }) => {
-  const {lastPossibleFolderPath} = useGetLastFolder(postType);
-  console.log(lastPossibleFolderPath);
+  const {folderPath} = useGetLastFolder(postType);
+  console.log(folderPath);
+
+  const imageInputRef = useRef();
+  console.log(imageInputRef.current);
   
   const {isSaving} = useSelector(state => state.raices);
 
@@ -43,7 +46,7 @@ export const FormComponent = ({ postType }) => {
         // File name: "image/event/Date.now()" || "image/project/Date.now()"
         const storageRef = ref(
           FirebaseStorage,
-          `${lastPossibleFolderPath}/${Date.now()}`
+          `${folderPath}/${Date.now()}`
         );
         // Firebase Method : uploadBytes, getDownloadURL
         await uploadBytes(storageRef, file).then((snapshot) => {
@@ -105,9 +108,10 @@ export const FormComponent = ({ postType }) => {
 
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
                 <TextField
+                  ref={imageInputRef}
                   variant="outlined"
                   label="Carpeta donde iran tus imagenes"
-                  value={lastPossibleFolderPath}
+                  value={folderPath}
                 />
               </Grid>
 

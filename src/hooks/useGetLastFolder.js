@@ -26,7 +26,7 @@ export const useGetLastFolder = (postType) => {
     }, [])
 
     return {
-        lastPossibleFolderPath: folderPath
+        folderPath
     }
 }
 
