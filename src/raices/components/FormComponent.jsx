@@ -21,12 +21,16 @@ export const FormComponent = ({ postType }) => {
 
   const quillRef = useRef();
 
-  const [content, setContent] = useState('');
-
   console.log('soyFormComponent');
 
-  const handleSave = () => {
-    console.log(content);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // take all the fields using js vanilla
+    const {imgPath, title, description} = Object.fromEntries(new window.FormData(e.target));
+    // and the content of the editor
+    const quillElementValue = quillRef.current.value;
+    
+    console.log(imgPath, title, description, quillElementValue);
   };
   
 
@@ -63,7 +67,6 @@ export const FormComponent = ({ postType }) => {
     });
   };
 
-
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -92,14 +95,14 @@ export const FormComponent = ({ postType }) => {
         <Paper elevation={7}
           sx={{ mt: 1, mb: 1, }}
         >
-          <Box component='form' sx={{ margin: 2 }}>
+          <Box component='form' sx={{ margin: 2 }} onSubmit={handleSubmit}>
             <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
               <Grid item>
                 {
                   (isSaving === "loading")
                     ? <CircularProgress color='error' size={30} />
-                    : <Button color='inherit' onClick={handleSave}>
+                    : <Button color='inherit' type='submit'>
                       <Save />
                     </Button>
                 }
@@ -109,14 +112,20 @@ export const FormComponent = ({ postType }) => {
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
                 <TextField
                   id='imagenPath'
+                  name='imgPath'
                   variant="outlined"
                   label="Carpeta donde iran tus imagenes"
                   value={folderPath}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
               </Grid>
 
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
                 <TextField
+                  name='title'
+                  required
                   variant="outlined"
                   label="Titulo"
                 />
@@ -124,6 +133,8 @@ export const FormComponent = ({ postType }) => {
 
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
                 <TextField
+                  name='description'
+                  required
                   label="Descripción"
                   multiline
                   rows={4}
@@ -133,7 +144,7 @@ export const FormComponent = ({ postType }) => {
 
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
                 
-                <ReactQuill theme="snow" modules={modules} onChange={setContent} ref={quillRef}/>
+                <ReactQuill theme="snow" modules={modules} ref={quillRef} />
               </Grid>
 
             </Grid>
