@@ -15,6 +15,7 @@ export const useGetLastFolder = (postType) => {
                     const arrayFolders = res.prefixes.map((folderRef) => {
                         return folderRef.name;
                     })
+                    arrayFolders.sort((a, b) => (a-b));
                     // take last folder name of array, convert to number and add +1, then 
                     // convert to string again.
                     const lastFolder = (parseInt(arrayFolders[arrayFolders.length - 1]) + 1).toString();
@@ -25,7 +26,7 @@ export const useGetLastFolder = (postType) => {
                     console.log(error)
                 });
         }
-
+        console.log('soy useGetLastFolder ')
         getData();
 
     }, [])

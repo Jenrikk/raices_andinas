@@ -23,6 +23,7 @@ export const FormComponent = ({ postType }) => {
 
   const [content, setContent] = useState('');
 
+  console.log('soyFormComponent');
 
   const handleSave = () => {
     console.log(content);
