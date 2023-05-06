@@ -1,23 +1,31 @@
-import { Save } from '@mui/icons-material';
-import { Box, Button, CircularProgress, Grid, Paper, TextField, Typography } from '@mui/material'
 import React, { useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import ReactQuill, {Quill} from 'react-quill';
+import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
+import { FirebaseStorage } from '../../firebase/config';
+import { useGetLastFolder } from '../../hooks';
+
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { toolbarOptions } from '../../quill/moduleParts'
 
 import ImageResize from 'quill-image-resize-module-react'
+
+import { Save } from '@mui/icons-material';
+import { Box, Button, CircularProgress, Grid, Paper, TextField, Typography } from '@mui/material'
+
+import { startAddNewEntry } from '../../store/entries/thunks';
+
 Quill.register('modules/imageResize', ImageResize)
 
-import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
-import { FirebaseStorage } from '../../firebase/config';
-import { useSelector } from 'react-redux';
-import { useGetLastFolder } from '../../hooks';
+
 
 export const FormComponent = ({ postType }) => {
-  const {folderPath} = useGetLastFolder(postType);
-  
-  const {isSaving} = useSelector(state => state.raices);
+  const dispatch = useDispatch();
+  // get the path we'll use to upload the images:
+  const { folderPath } = useGetLastFolder(postType);
+
+  const { isSaving } = useSelector(state => state.raices);
 
   const quillRef = useRef();
 
@@ -26,13 +34,24 @@ export const FormComponent = ({ postType }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // take all the fields using js vanilla
-    const {imgPath, title, description} = Object.fromEntries(new window.FormData(e.target));
+    const { imgPath, title, description } = Object.fromEntries(new window.FormData(e.target));
     // and the content of the editor
     const quillElementValue = quillRef.current.value;
-    
-    console.log(imgPath, title, description, quillElementValue);
+
+    const entryObject = {
+      postType,
+      title,
+      description,
+      quillElementValue,
+      imgPath,
+    }
+
+    console.log(entryObject);
+
+    dispatch(startAddNewEntry(entryObject));
+
   };
-  
+
 
   const imageHandler = () => {
     // get the path (value) set on the TextField with id="imagenPath"
@@ -77,8 +96,8 @@ export const FormComponent = ({ postType }) => {
       },
       imageResize: {
         // parchment: Quill.import('parchment'),
-        modules: [ 'Resize', 'DisplaySize' ]
-    }
+        modules: ['Resize', 'DisplaySize']
+      }
     };
   }, []);
 
@@ -143,7 +162,7 @@ export const FormComponent = ({ postType }) => {
               </Grid>
 
               <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
-                
+
                 <ReactQuill theme="snow" modules={modules} ref={quillRef} />
               </Grid>
 

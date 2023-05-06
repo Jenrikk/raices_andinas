@@ -1,21 +1,24 @@
 import { collection, doc, setDoc } from 'firebase/firestore/lite'
 import { FirebaseDB } from '../../firebase/config';
-import { addNewEntry } from './entriesSlice';
+import { addNewEntry, setIsSaving } from './entriesSlice';
 
 
-export const startAddNewEntry = () => {
+export const startAddNewEntry = (entryContent) => {
 
     return async(dispatch, getState) => {
 
         // uid
         const {uid} = getState().auth;
 
+        dispatch(setIsSaving('loading'));
+
         const newEntry = {
-            title: '',
-            description: '',
-            body: '',
+            type: entryContent.postType,
+            title: entryContent.title,
+            description: entryContent.description,
+            body: entryContent.quillElementValue,
+            imagesPath: entryContent.imgPath,
             date: new Date().getTime(),
-            // imageUrls: [],
         }
 
         const newDoc = doc( collection(FirebaseDB, `${uid}/raices/entries`));

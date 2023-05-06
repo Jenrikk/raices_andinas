@@ -12,15 +12,15 @@ export const entriesSlice = createSlice({
         getAllEntries: (state) => {
             state.entries;
         },
-        setIsSaving: (state) => {
-            
+        setIsSaving: (state, action) => {
+            state.isSaving = action.payload;
         },
         getEntryById: (state, entryId) => {
             state.entries.find(entry => entry.id === entryId);
         },
         addNewEntry: (state, action) => {
             state.entries.push(action.payload);
-            state.isSaving = false;
+            state.isSaving = 'succeeded';
         },
         updateEntry: (state, action) => {
             
@@ -39,7 +39,7 @@ export const entriesSlice = createSlice({
  // Action creators are generated for each case reducer function 
 export const { 
     getAllEntries, 
-    setStatus, 
+    setIsSaving, 
     getEntryById, 
     addNewEntry, 
     updateEntry, 
