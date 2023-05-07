@@ -33,7 +33,7 @@ export const FormComponent = ({ postType }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // take all the fields using js vanilla
+    // gather all the fields using js vanilla
     const { imgPath, title, description } = Object.fromEntries(new window.FormData(e.target));
     // and the content of the editor
     const quillElementValue = quillRef.current.value;
@@ -44,11 +44,16 @@ export const FormComponent = ({ postType }) => {
       description,
       quillElementValue,
       imgPath,
-    }
-
+    };
     console.log(entryObject);
-
+    // upload the entry object dispatching the thunk fn()
     dispatch(startAddNewEntry(entryObject));
+    
+    // clear the editor
+    const element = document.getElementsByClassName("ql-editor");
+    element[0].innerHTML = "";
+    // clear the inputs
+    e.target.reset();
 
   };
 
