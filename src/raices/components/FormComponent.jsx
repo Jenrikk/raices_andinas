@@ -11,10 +11,11 @@ import { toolbarOptions } from '../../quill/moduleParts'
 
 import ImageResize from 'quill-image-resize-module-react'
 
-import { Save } from '@mui/icons-material';
-import { Box, Button, CircularProgress, Grid, Paper, TextField, Typography } from '@mui/material'
+import { Save, UploadFileOutlined } from '@mui/icons-material';
+import { Box, Button, CircularProgress, Grid, IconButton, Paper, TextField, Typography } from '@mui/material'
 
 import { startAddNewEntry } from '../../store/entries/thunks';
+import { MuiFileInput } from 'mui-file-input';
 
 Quill.register('modules/imageResize', ImageResize)
 
@@ -25,27 +26,41 @@ export const FormComponent = ({ postType }) => {
   // get the path we'll use to upload the images:
   const { folderPath } = useGetLastFolder(postType);
 
+  const [imageFile, setImageFile] = useState('');
+
   const { isSaving } = useSelector(state => state.raices);
 
   const quillRef = useRef();
 
   console.log('soyFormComponent');
 
+  const fileInputRef = useRef();
+  const onFileInputChange = (ev) => {
+    if( ev.target.files === 0 ) return;
+    if( !ev.target.files[0] ) return;
+
+    const imgName = ev.target.files[0].name;
+    setImageFile(imgName);
+    console.log(imgName);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // gather all the fields using js vanilla
-    const { imgPath, title, description } = Object.fromEntries(new window.FormData(e.target));
+    const { coverImg, imgPath, title, description } = Object.fromEntries(new window.FormData(e.target));
     // and the content of the editor
     const quillElementValue = quillRef.current.value;
 
     const entryObject = {
       postType,
+      coverImg,
       title,
       description,
       quillElementValue,
       imgPath,
     };
     console.log(entryObject);
+
     // upload the entry object dispatching the thunk fn()
     dispatch(startAddNewEntry(entryObject));
     
@@ -57,7 +72,7 @@ export const FormComponent = ({ postType }) => {
 
   };
 
-
+  
   const imageHandler = () => {
     // get the path (value) set on the TextField with id="imagenPath"
     const imagenPath = document.getElementById('imagenPath').value;
@@ -132,16 +147,34 @@ export const FormComponent = ({ postType }) => {
                 }
 
               </Grid>
-
-              <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
+              
+              <Grid item xs={12} sm={12} md={12} sx={{ mt: 3, mb: 1 }}>
+                <input 
+                  type="file" ref={fileInputRef} 
+                  onChange={onFileInputChange} 
+                  accept="image/png, image/jpeg" style={{ display: 'none'}}
+                />
+                <IconButton 
+                  color='inherit' 
+                  disabled={(isSaving === 'loading')}
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  <UploadFileOutlined />
+                </IconButton>
                 <TextField
-                  id='imagenPath'
-                  name='imgPath'
+                  name='coverImg'
+                  required
                   variant="outlined"
-                  label="Carpeta donde iran tus imagenes"
-                  value={folderPath}
+                  label="Imagen de Portada"
+                  value={imageFile}
                   InputProps={{
                     readOnly: true,
+                  }}
+                  sx={{ 
+                    border: 
+                    (imageFile === '') 
+                      ? '2px solid red'
+                      : ''
                   }}
                 />
               </Grid>
@@ -163,6 +196,19 @@ export const FormComponent = ({ postType }) => {
                   multiline
                   rows={4}
                   variant="outlined"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
+                <TextField
+                  id='imagenPath'
+                  name='imgPath'
+                  variant="outlined"
+                  label="Carpeta donde iran tus imagenes"
+                  value={folderPath}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
               </Grid>
 

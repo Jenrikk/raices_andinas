@@ -8,7 +8,7 @@ export const startAddNewEntry = (entryContent) => {
     return async(dispatch, getState) => {
 
         // uid
-        const {uid} = getState().auth;
+        // const {uid} = getState().auth;
 
         dispatch(setIsSaving('loading'));
 
@@ -21,7 +21,8 @@ export const startAddNewEntry = (entryContent) => {
             date: new Date().getTime(),
         }
 
-        const newDoc = doc( collection(FirebaseDB, `${uid}/raices/entries`));
+        // const newDoc = doc( collection(FirebaseDB, `${uid}/raices/entries`));
+        const newDoc = doc( collection(FirebaseDB, `id-admin/raices/entries`));
         await setDoc( newDoc, newEntry );
         // add id property to newEntry
         newEntry.id = newDoc.id;
