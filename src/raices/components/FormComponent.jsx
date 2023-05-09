@@ -14,8 +14,7 @@ import ImageResize from 'quill-image-resize-module-react'
 import { Save, UploadFileOutlined } from '@mui/icons-material';
 import { Box, Button, CircularProgress, Grid, IconButton, Paper, TextField, Typography } from '@mui/material'
 
-import { startAddNewEntry } from '../../store/entries/thunks';
-import { MuiFileInput } from 'mui-file-input';
+import { startAddNewEntry, } from '../../store/entries/thunks';
 
 Quill.register('modules/imageResize', ImageResize)
 
@@ -35,19 +34,37 @@ export const FormComponent = ({ postType }) => {
   console.log('soyFormComponent');
 
   const fileInputRef = useRef();
-  const onFileInputChange = (ev) => {
-    if( ev.target.files === 0 ) return;
-    if( !ev.target.files[0] ) return;
+  const onFileInputChange = async (ev) => {
+    if (ev.target.files === 0) return; // exit if we resign to set a file the first time
+    if (!ev.target.files[0]) return; // exit if we resign to change the existing file
 
-    const imgName = ev.target.files[0].name;
-    setImageFile(imgName);
-    console.log(imgName);
+    const file = ev.target.files[0];
+    // get the path (value) set on the TextField with id="imagenPath"
+    const imagenPath = document.getElementById('imagenPath').value;
+
+    try {
+      // File name: "image/event/imageName" || "image/project/imageName"
+      const storageRef = ref(
+        FirebaseStorage,
+        `${imagenPath}/${file.name}`
+      );
+      // Firebase Method : uploadBytes, getDownloadURL
+      await uploadBytes(storageRef, file).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          setImageFile(url);
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // gather all the fields using js vanilla
-    const { coverImg, imgPath, title, description } = Object.fromEntries(new window.FormData(e.target));
+    const { coverImg, title, description, imgPath } = Object.fromEntries(new window.FormData(e.target));
     // and the content of the editor
     const quillElementValue = quillRef.current.value;
 
@@ -63,16 +80,18 @@ export const FormComponent = ({ postType }) => {
 
     // upload the entry object dispatching the thunk fn()
     dispatch(startAddNewEntry(entryObject));
-    
+
     // clear the editor
     const element = document.getElementsByClassName("ql-editor");
     element[0].innerHTML = "";
     // clear the inputs
     e.target.reset();
 
+    //Redirect to All Events/Projects
+
   };
 
-  
+
   const imageHandler = () => {
     // get the path (value) set on the TextField with id="imagenPath"
     const imagenPath = document.getElementById('imagenPath').value;
@@ -141,23 +160,29 @@ export const FormComponent = ({ postType }) => {
                 {
                   (isSaving === "loading")
                     ? <CircularProgress color='error' size={30} />
-                    : <Button color='inherit' type='submit'>
+                    : <Button color='inherit' type='submit' disabled={(imageFile === '')}>
                       <Save />
                     </Button>
                 }
 
               </Grid>
-              
-              <Grid item xs={12} sm={12} md={12} sx={{ mt: 3, mb: 1 }}>
-                <input 
-                  type="file" ref={fileInputRef} 
-                  onChange={onFileInputChange} 
-                  accept="image/png, image/jpeg" style={{ display: 'none'}}
+
+              <Grid item xs={12} sm={12} md={12} sx={{ mt: 3, mb: 1, display: 'flex' }}>
+                <input
+                  type="file" ref={fileInputRef}
+                  onChange={onFileInputChange}
+                  accept="image/png, image/jpeg" style={{ display: 'none' }}
                 />
-                <IconButton 
-                  color='inherit' 
+                <IconButton
+                  color='inherit'
                   disabled={(isSaving === 'loading')}
                   onClick={() => fileInputRef.current.click()}
+                  sx={{
+                    color:
+                      (imageFile === '')
+                        ? 'red'
+                        : 'inherit'
+                  }}
                 >
                   <UploadFileOutlined />
                 </IconButton>
@@ -170,21 +195,17 @@ export const FormComponent = ({ postType }) => {
                   InputProps={{
                     readOnly: true,
                   }}
-                  sx={{ 
-                    border: 
-                    (imageFile === '') 
-                      ? '2px solid red'
-                      : ''
-                  }}
+                  sx={{ minWidth: 260 }}
                 />
               </Grid>
 
-              <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
+              <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1, }}>
                 <TextField
                   name='title'
                   required
                   variant="outlined"
                   label="Titulo"
+                  sx={{ minWidth: 300 }}
                 />
               </Grid>
 
@@ -196,6 +217,7 @@ export const FormComponent = ({ postType }) => {
                   multiline
                   rows={4}
                   variant="outlined"
+                  sx={{ minWidth: 300 }}
                 />
               </Grid>
 
@@ -209,6 +231,7 @@ export const FormComponent = ({ postType }) => {
                   InputProps={{
                     readOnly: true,
                   }}
+                  sx={{ minWidth: 300 }}
                 />
               </Grid>
 

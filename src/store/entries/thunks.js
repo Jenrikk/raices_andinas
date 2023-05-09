@@ -14,10 +14,11 @@ export const startAddNewEntry = (entryContent) => {
 
         const newEntry = {
             type: entryContent.postType,
+            cover_img: entryContent.coverImg,
             title: entryContent.title,
             description: entryContent.description,
-            body: entryContent.quillElementValue,
             imagesPath: entryContent.imgPath,
+            body: entryContent.quillElementValue,
             date: new Date().getTime(),
         }
 
@@ -33,8 +34,5 @@ export const startAddNewEntry = (entryContent) => {
 }
 
 
-export const startSavingStatus = () => {
-    
-}
 
 
