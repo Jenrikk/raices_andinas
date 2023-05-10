@@ -1,9 +1,14 @@
 import React from 'react'
+import { RaicesLayout } from '../layout/RaicesLayout'
+import { AllEventsView } from '../views/AllEventsView'
 
 export const AllEventsPage = () => {
   return (
-    <div>
-        <h1>AllEventsPage</h1>
-    </div>
+    <RaicesLayout>
+
+        <AllEventsView />
+
+
+    </RaicesLayout>
   )
 }

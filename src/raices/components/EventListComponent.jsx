@@ -1,14 +1,33 @@
+import { useEffect, useState } from 'react';
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typography, } from '@mui/material';
 import iguana from './../../assets/images/contemplative_reptile.jpg'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { startAddNewEntry } from '../../store/entries/thunks';
+import { collection, getDocs, query, where } from 'firebase/firestore/lite';
+import { FirebaseDB } from '../../firebase/config';
 
 
 
 export const EventListComponent = () => {
-
     const {status} = useSelector(state => state.auth);
+
+    const [events, setEvents] = useState([]);
+
+    useEffect(() => {
+      const getEvents = async () => {
+        const collectionRef = collection(FirebaseDB, `id-admin/raices/entries`);
+        const docs = await getDocs(query(collectionRef, where("type", "==", "event")));
+        docs.forEach( doc => {
+            console.log(doc.data());
+        })
+
+      }
+
+      getEvents();
+    }, [])
+    
+
 
 
 
