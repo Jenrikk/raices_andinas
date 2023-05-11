@@ -12,22 +12,30 @@ import { FirebaseDB } from '../../firebase/config';
 export const EventListComponent = () => {
     const {status} = useSelector(state => state.auth);
 
-    const [events, setEvents] = useState([]);
+    const [entries, setEntries] = useState([]);
 
     useEffect(() => {
       const getEvents = async () => {
         const collectionRef = collection(FirebaseDB, `id-admin/raices/entries`);
         const docs = await getDocs(query(collectionRef, where("type", "==", "event")));
+        const allEntries = [];
         docs.forEach( doc => {
-            console.log(doc.data());
-        })
+            allEntries.push(
+                {
+                    id: doc.id,
+                    ...doc.data()
+                }
+            );
+        });
 
+        setEntries(allEntries)
       }
 
       getEvents();
+
     }, [])
     
-
+    console.log({entries});
 
 
 
@@ -52,6 +60,13 @@ export const EventListComponent = () => {
                     </Button>
                 </Box>
             </Grid>
+            <ul>
+                {
+                    entries.map( entry => (
+                        <li key={entry.id} >{entry.title}</li>
+                    ))
+                }
+            </ul> 
 
             <Grid container item spacing={2} xs={12} sm={12} md={12} margin='auto' >
                 <Grid item p={2} xs={12} sm={6} md={6} sx={{ display: 'flex', justifyContent: 'center' }} >
