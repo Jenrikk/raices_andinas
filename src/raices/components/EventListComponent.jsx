@@ -3,7 +3,7 @@ import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typograph
 import iguana from './../../assets/images/contemplative_reptile.jpg'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { startAddNewEntry } from '../../store/entries/thunks';
+import { startAddNewEntry, startLoadingEntries } from '../../store/entries/thunks';
 import { collection, getDocs, query, where } from 'firebase/firestore/lite';
 import { FirebaseDB } from '../../firebase/config';
 
@@ -11,31 +11,33 @@ import { FirebaseDB } from '../../firebase/config';
 
 export const EventListComponent = () => {
     const {status} = useSelector(state => state.auth);
+    const dispatch = useDispatch();
 
     const [entries, setEntries] = useState([]);
 
     useEffect(() => {
-      const getEvents = async () => {
-        const collectionRef = collection(FirebaseDB, `id-admin/raices/entries`);
-        const docs = await getDocs(query(collectionRef, where("type", "==", "event")));
-        const allEntries = [];
-        docs.forEach( doc => {
-            allEntries.push(
-                {
-                    id: doc.id,
-                    ...doc.data()
-                }
-            );
-        });
+    //   const getEvents = async () => {
+    //     const collectionRef = collection(FirebaseDB, `id-admin/raices/entries`);
+    //     const docs = await getDocs(query(collectionRef, where("type", "==", "event")));
+    //     const allEntries = [];
+    //     docs.forEach( doc => {
+    //         allEntries.push(
+    //             {
+    //                 id: doc.id,
+    //                 ...doc.data()
+    //             }
+    //         );
+    //     });
 
-        setEntries(allEntries)
-      }
+    //     setEntries(allEntries)
+    //   }
 
-      getEvents();
+    //   getEvents();
+    dispatch(startLoadingEntries());
 
     }, [])
     
-    console.log({entries});
+    // console.log({entries});
 
 
 
@@ -60,13 +62,13 @@ export const EventListComponent = () => {
                     </Button>
                 </Box>
             </Grid>
-            <ul>
+            {/* <ul>
                 {
                     entries.map( entry => (
                         <li key={entry.id} >{entry.title}</li>
                     ))
                 }
-            </ul> 
+            </ul>  */}
 
             <Grid container item spacing={2} xs={12} sm={12} md={12} margin='auto' >
                 <Grid item p={2} xs={12} sm={6} md={6} sx={{ display: 'flex', justifyContent: 'center' }} >

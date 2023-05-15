@@ -33,6 +33,13 @@ export const startAddNewEntry = (entryContent) => {
     }
 }
 
+export const startLoadingEntries = () => {
+    return async (dispatch, getState) => {
+        const {uid} = getState().auth;
+        console.log(uid);
+    }
+}
+
 
 
 

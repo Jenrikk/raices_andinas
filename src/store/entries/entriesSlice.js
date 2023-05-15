@@ -4,9 +4,9 @@ export const entriesSlice = createSlice({
     name: 'entries',
     initialState: {
         isSaving: 'new', // 'succeeded' or 'failed' or 'new' or 'loading'
-        messageSaved: '',
         entries: [],
-        publishedEntries: []
+        publishedEntries: [],
+        errorMessage: null,
     },
     reducers: {
         getAllEntries: (state) => {

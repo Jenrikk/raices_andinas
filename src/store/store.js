@@ -5,6 +5,6 @@ import { entriesSlice } from "./entries";
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
-        raices: entriesSlice.reducer,
+        entries: entriesSlice.reducer,
     },
 })
