@@ -3,17 +3,22 @@ import { createSlice } from '@reduxjs/toolkit';
 export const entriesSlice = createSlice({
     name: 'entries',
     initialState: {
-        isSaving: 'new', // 'succeeded' or 'failed' or 'new' or 'loading'
+        isSaving: 'new', // 'succeeded' | 'failed' | 'new' | 'loading'
+        status: 'idle', // 'loading' | 'succeeded' | 'failed'
         entries: [],
         publishedEntries: [],
         errorMessage: null,
     },
     reducers: {
-        getAllEntries: (state) => {
-            state.entries;
+        setEntries: (state, action) => {
+            state.entries = action.payload;
+            state.errorMessage = null;
         },
         setIsSaving: (state, action) => {
             state.isSaving = action.payload;
+        },
+        setStatus: (state, action) => {
+            state.status = action.payload;
         },
         getEntryById: (state, entryId) => {
             state.entries.find(entry => entry.id === entryId);
@@ -31,6 +36,10 @@ export const entriesSlice = createSlice({
         deleteEntryById: (state, action) => {
             
         },
+        setErrorMessage: (state, action) => {
+            state.errorMessage = action.payload;
+        },
+        
         
      }
  });
@@ -38,10 +47,12 @@ export const entriesSlice = createSlice({
 
  // Action creators are generated for each case reducer function 
 export const { 
-    getAllEntries, 
+    setEntries, 
     setIsSaving, 
+    setStatus,
     getEntryById, 
     addNewEntry, 
     updateEntry, 
     publishEntry, 
-    deleteEntryById } = entriesSlice.actions;
+    deleteEntryById,
+    setErrorMessage } = entriesSlice.actions;

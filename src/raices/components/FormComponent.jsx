@@ -27,7 +27,7 @@ export const FormComponent = ({ postType }) => {
 
   const [imageFile, setImageFile] = useState('');
 
-  const { isSaving } = useSelector(state => state.raices);
+  const { isSaving } = useSelector(state => state.entries);
 
   const quillRef = useRef();
 

@@ -10,52 +10,38 @@ import { FirebaseDB } from '../../firebase/config';
 
 
 export const EventListComponent = () => {
-    const {status} = useSelector(state => state.auth);
+    const { status } = useSelector(state => state.auth);
+    const entriesStatus = useSelector(state => state.entries.status);
     const dispatch = useDispatch();
 
-    const [entries, setEntries] = useState([]);
+    console.log(entriesStatus)
 
     useEffect(() => {
-    //   const getEvents = async () => {
-    //     const collectionRef = collection(FirebaseDB, `id-admin/raices/entries`);
-    //     const docs = await getDocs(query(collectionRef, where("type", "==", "event")));
-    //     const allEntries = [];
-    //     docs.forEach( doc => {
-    //         allEntries.push(
-    //             {
-    //                 id: doc.id,
-    //                 ...doc.data()
-    //             }
-    //         );
-    //     });
+        if (entriesStatus === 'idle') {
+            dispatch(startLoadingEntries());
+        }
 
-    //     setEntries(allEntries)
-    //   }
+    }, []);
 
-    //   getEvents();
-    dispatch(startLoadingEntries());
-
-    }, [])
-    
-    // console.log({entries});
+    console.log('soy EventListComponent');
 
 
 
     return (
-        <Grid container component='section' direction='row' sx={{  p: 1, }} >
+        <Grid container component='section' direction='row' sx={{ p: 1, }} >
 
-            <Grid item xs={12} sm={12} md={12} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 1, mt: 1}}>
-                <Typography sx={{ typography: { xs: 'h4', sm: 'h3', md: 'h2'  } }}>
+            <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 1, mt: 1 }}>
+                <Typography sx={{ typography: { xs: 'h4', sm: 'h3', md: 'h2' } }}>
                     Nuestros ultimos eventos
                 </Typography>
                 <Box display={(status === 'authenticated') ? '' : 'none'}>
                     <Button component={Link}
-                        to='/event/new' 
-                        sx={{ 
-                            backgroundColor: 'transparent', 
-                            color: 'error.main', 
+                        to='/event/new'
+                        sx={{
+                            backgroundColor: 'transparent',
+                            color: 'error.main',
                             mt: 2, ml: 1,
-                            ':hover': {color: 'inherit'}
+                            ':hover': { color: 'inherit' }
                         }}
                     >
                         Agregar evento
@@ -165,7 +151,7 @@ export const EventListComponent = () => {
                 </Grid>
 
             </Grid> {/* //end of Grid container item */}
-            
+
 
         </Grid>
     )

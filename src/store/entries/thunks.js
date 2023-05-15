@@ -1,6 +1,7 @@
 import { collection, doc, setDoc } from 'firebase/firestore/lite'
 import { FirebaseDB } from '../../firebase/config';
-import { addNewEntry, setIsSaving } from './entriesSlice';
+import { loadEntries } from '../../helpers/loadEntries';
+import { addNewEntry, setEntries, setErrorMessage, setIsSaving, setStatus } from './entriesSlice';
 
 
 export const startAddNewEntry = (entryContent) => {
@@ -34,9 +35,16 @@ export const startAddNewEntry = (entryContent) => {
 }
 
 export const startLoadingEntries = () => {
-    return async (dispatch, getState) => {
-        const {uid} = getState().auth;
-        console.log(uid);
+    return async (dispatch) => {
+        dispatch(setStatus('loading'));
+
+        const entries = await loadEntries();
+        // dispatch error here if entries doesn't have data
+        if ( entries.code ) return dispatch( setErrorMessage(`${entries.code}, ${entries.name}`));
+        
+        dispatch(setEntries(entries));
+
+        dispatch(setStatus('idle'));
     }
 }
 
