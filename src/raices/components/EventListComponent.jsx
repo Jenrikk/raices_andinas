@@ -11,7 +11,9 @@ import { FirebaseDB } from '../../firebase/config';
 
 export const EventListComponent = () => {
     const { status } = useSelector(state => state.auth);
+    const { errorMessage } = useSelector(state => state.entries);
     const entriesStatus = useSelector(state => state.entries.status);
+    const { entries } = useSelector(state => state.entries);
     const dispatch = useDispatch();
 
     console.log(entriesStatus)
@@ -24,7 +26,6 @@ export const EventListComponent = () => {
     }, []);
 
     console.log('soy EventListComponent');
-
 
 
     return (
@@ -48,39 +49,48 @@ export const EventListComponent = () => {
                     </Button>
                 </Box>
             </Grid>
-            {/* <ul>
-                {
-                    entries.map( entry => (
-                        <li key={entry.id} >{entry.title}</li>
-                    ))
-                }
-            </ul>  */}
+
+            {
+                errorMessage && <Typography variant='h4'>{errorMessage}</Typography>
+            }
+
+            {/* TODO: If entriesStatus is 'loading' show a loadingComponent,if not, the entries */}
+            {
+                (entriesStatus === 'loading') && <Typography variant='h4'>Cargando...</Typography>
+            }
+
 
             <Grid container item spacing={2} xs={12} sm={12} md={12} margin='auto' >
-                <Grid item p={2} xs={12} sm={6} md={6} sx={{ display: 'flex', justifyContent: 'center' }} >
-                    <Card sx={{ maxWidth: 590, }}>
-                        <CardMedia
-                            component="img"
-                            alt="green iguana"
-                            height="140"
-                            image={iguana}
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Lizard
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000
-                                species, ranging across all continents except Antarctica
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Share</Button>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </Card>
-                </Grid>
-                <Grid item p={2} xs={12} sm={6} md={6} sx={{ display: 'flex', justifyContent: 'center', }}>
+                {
+                    entries.map(entry => (
+                        <Grid item key={entry.id} p={2} xs={12} sm={6} md={6} sx={{ display: 'flex', justifyContent: 'center' }} >
+                            <Card sx={{ maxWidth: 490, minWidth: 290}}>
+                                <CardMedia
+                                    component="img"
+                                    alt={entry.title}
+                                    height="140"
+                                    image={entry.cover_img}
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        {entry.title}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {entry.description}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button size="small" color='inherit'>Share</Button>
+                                    <Button size="small" color='inherit'>Learn More</Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))
+                }
+
+
+
+                {/* <Grid item p={2} xs={12} sm={6} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Card sx={{ maxWidth: 590 }}>
                         <CardMedia
                             component="img"
@@ -102,53 +112,7 @@ export const EventListComponent = () => {
                             <Button size="small">Learn More</Button>
                         </CardActions>
                     </Card>
-                </Grid>
-                <Grid item p={2} xs={12} sm={6} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Card sx={{ maxWidth: 590 }}>
-                        <CardMedia
-                            component="img"
-                            alt="green iguana"
-                            height="140"
-                            image={iguana}
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Lizard
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000
-                                species, ranging across all continents except Antarctica
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Share</Button>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </Card>
-                </Grid>
-                <Grid item p={2} xs={12} sm={6} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Card sx={{ maxWidth: 590 }}>
-                        <CardMedia
-                            component="img"
-                            alt="green iguana"
-                            height="140"
-                            image={iguana}
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Lizard
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000
-                                species, ranging across all continents except Antarctica
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Share</Button>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </Card>
-                </Grid>
+                </Grid> */}
 
             </Grid> {/* //end of Grid container item */}
 

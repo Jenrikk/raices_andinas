@@ -39,8 +39,10 @@ export const startLoadingEntries = () => {
         dispatch(setStatus('loading'));
 
         const entries = await loadEntries();
+        
         // dispatch error here if entries doesn't have data
         if ( entries.code ) return dispatch( setErrorMessage(`${entries.code}, ${entries.name}`));
+        if ( entries.length === 0 ) return dispatch( setErrorMessage('No se encontraron datos'));
         
         dispatch(setEntries(entries));
 
