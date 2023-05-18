@@ -60,11 +60,15 @@ export const EventListComponent = () => {
             }
 
 
-            <Grid container item spacing={2} xs={12} sm={12} md={12} margin='auto' >
+            <Grid container item margin='auto' maxWidth={1300}
+                sx={{ display: 'grid', width: '100%', gap: 1, 
+                    gridTemplateColumns: {xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)'}
+                }} 
+            >
                 {
                     entries.map(entry => (
-                        <Grid item key={entry.id} p={2} xs={12} sm={6} md={6} sx={{ display: 'flex', justifyContent: 'center' }} >
-                            <Card sx={{ maxWidth: 490, minWidth: 290}}>
+                        <Grid item key={entry.id} >
+                            <Card>
                                 <CardMedia
                                     component="img"
                                     alt={entry.title}
