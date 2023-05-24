@@ -1,4 +1,4 @@
-import { collection, doc, setDoc } from 'firebase/firestore/lite'
+import { collection, deleteDoc, doc, setDoc } from 'firebase/firestore/lite'
 import { FirebaseDB } from '../../firebase/config';
 import { loadEntries } from '../../helpers/loadEntries';
 import { addNewEntry, setEntries, setErrorMessage, setIsSaving, setStatus } from './entriesSlice';
@@ -47,6 +47,15 @@ export const startLoadingEntries = () => {
         dispatch(setEntries(entries));
 
         dispatch(setStatus('idle'));
+    }
+}
+
+
+export const startDeletingEntry = (entryId) => {
+    return async( dispatch, getState) => {
+        
+        const docRef = doc(FirebaseDB, `id-admin/raices/entries/${entryId}`)
+        await deleteDoc(docRef);
     }
 }
 

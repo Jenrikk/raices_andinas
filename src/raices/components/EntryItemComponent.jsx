@@ -1,8 +1,27 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
-import React from 'react'
+import { DeleteOutline, EditOutlined } from '@mui/icons-material';
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import React, { useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { startDeletingEntry } from '../../store/entries/thunks';
 
 export const EntryItemComponent = ({entry}) => {
+    const { status } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
 
+    const newDescription = useMemo(() => {
+        return entry.description.length > 190
+                ? entry.description.substring(0, 190) + '...'
+                : entry.description;
+
+    }, [entry.description])
+
+    const onEdit = (id) => {
+        console.log(`editando ${id}`);
+    };
+
+    const onDelete = (id) => {
+        dispatch(startDeletingEntry(id));
+    };
 
     return (
         <Grid item key={entry.id} >
@@ -17,13 +36,24 @@ export const EntryItemComponent = ({entry}) => {
                     <Typography gutterBottom variant="h5" component="div">
                         {entry.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {entry.description}
+                    <Typography variant="h6" color="text.secondary">
+                        {newDescription}
                     </Typography>
                 </CardContent>
                 <CardActions>
                     <Button size="small" color='inherit'>Share</Button>
                     <Button size="small" color='inherit'>Learn More</Button>
+                    <Box display={(status === 'authenticated') ? '' : 'none'}>
+                        <Button size="small" color='info' onClick={() => onEdit(entry.id)} >
+                            <EditOutlined />
+                            Editar
+                        </Button>
+                        <Button size="small" color='error' onClick={() => onDelete(entry.id)} >
+                            <DeleteOutline />
+                            Borrar
+                        </Button>
+                    </Box>
+                    
                 </CardActions>
             </Card>
         </Grid>
