@@ -6,9 +6,9 @@ import { ConfirmProvider } from 'material-ui-confirm'
 export const RaicesApp = () => {
   return (
     <AppTheme>
-      {/* <ConfirmProvider> */}
+      <ConfirmProvider>
         <AppRouter />
-      {/* </ConfirmProvider> */}
+      </ConfirmProvider>
     </AppTheme>
   )
 }

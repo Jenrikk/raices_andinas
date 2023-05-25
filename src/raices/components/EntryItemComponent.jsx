@@ -3,8 +3,11 @@ import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typograph
 import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { startDeletingEntry } from '../../store/entries/thunks';
+import { useConfirm } from "material-ui-confirm";
 
 export const EntryItemComponent = ({entry}) => {
+    const confirm = useConfirm();
+
     const { status } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
@@ -20,7 +23,19 @@ export const EntryItemComponent = ({entry}) => {
     };
 
     const onDelete = (id) => {
-        dispatch(startDeletingEntry(id));
+        confirm({
+            title: "Estás seguro de que quieres BORRAR esta entrada?",
+            description: "Esta acción será permanente!",
+            confirmationButtonProps: { color: 'error', variant: 'outlined' },
+            cancellationButtonProps: {  color: 'error', variant: 'outlined' },
+        })
+            .then(() => {
+                dispatch(startDeletingEntry(id));
+            })
+            .catch(() => {
+                /* ... */
+            });
+        
     };
 
     return (
