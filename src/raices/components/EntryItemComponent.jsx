@@ -4,6 +4,8 @@ import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { startDeletingEntry } from '../../store/entries/thunks';
 import { useConfirm } from "material-ui-confirm";
+import { Link } from 'react-router-dom';
+
 
 export const EntryItemComponent = ({entry}) => {
     const confirm = useConfirm();
@@ -18,9 +20,6 @@ export const EntryItemComponent = ({entry}) => {
 
     }, [entry.description])
 
-    const onEdit = (id) => {
-        console.log(`editando ${id}`);
-    };
 
     const onDelete = (id) => {
         confirm({
@@ -39,7 +38,7 @@ export const EntryItemComponent = ({entry}) => {
     };
 
     return (
-        <Grid item key={entry.id} >
+        <Grid item >
             <Card>
                 <CardMedia
                     component="img"
@@ -59,7 +58,11 @@ export const EntryItemComponent = ({entry}) => {
                     <Button size="small" color='inherit'>Share</Button>
                     <Button size="small" color='inherit'>Learn More</Button>
                     <Box display={(status === 'authenticated') ? '' : 'none'}>
-                        <Button size="small" color='info' onClick={() => onEdit(entry.id)} >
+                        <Button component={Link}
+                            to='/event/new'>
+
+                        </Button>
+                        <Button size="small" color='info' component={Link} to={`/event/${entry.id}`} >
                             <EditOutlined />
                             Editar
                         </Button>
