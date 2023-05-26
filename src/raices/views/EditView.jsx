@@ -1,7 +1,13 @@
-import React from 'react'
+import { Grid } from '@mui/material'
+import { EditFormComponent } from '../components/EditFormComponent'
+
 
 export const EditView = () => {
   return (
-    <div>EditView</div>
+    <Grid container component="main" sx={{ mt: 9}}>
+
+      <EditFormComponent />
+
+    </Grid>
   )
 }
