@@ -27,7 +27,7 @@ export const FormComponent = ({ postType }) => {
 
   const [imageFile, setImageFile] = useState('');
 
-  const { isSaving } = useSelector(state => state.entries);
+  const { status } = useSelector(state => state.entries);
 
   const quillRef = useRef();
 
@@ -86,6 +86,7 @@ export const FormComponent = ({ postType }) => {
     element[0].innerHTML = "";
     // clear the inputs
     e.target.reset();
+    setImageFile('');
 
     //Redirect to All Events/Projects
 
@@ -158,7 +159,7 @@ export const FormComponent = ({ postType }) => {
 
               <Grid item>
                 {
-                  (isSaving === "loading")
+                  (status === "loading")
                     ? <CircularProgress color='error' size={30} />
                     : <Button color='inherit' type='submit' disabled={(imageFile === '')}>
                       <Save />
@@ -175,7 +176,7 @@ export const FormComponent = ({ postType }) => {
                 />
                 <IconButton
                   color='inherit'
-                  disabled={(isSaving === 'loading')}
+                  disabled={(status === 'loading')}
                   onClick={() => fileInputRef.current.click()}
                   sx={{
                     color:

@@ -1,7 +1,7 @@
 import { collection, deleteDoc, doc, setDoc } from 'firebase/firestore/lite'
 import { FirebaseDB } from '../../firebase/config';
 import { loadEntries } from '../../helpers/loadEntries';
-import { addNewEntry, setEntries, setErrorMessage, setIsSaving, setStatus } from './entriesSlice';
+import { addNewEntry, deleteEntryById, setEntries, setEntryForEdition, setErrorMessage, setStatus } from './entriesSlice';
 
 
 export const startAddNewEntry = (entryContent) => {
@@ -11,7 +11,7 @@ export const startAddNewEntry = (entryContent) => {
         // uid
         // const {uid} = getState().auth;
 
-        dispatch(setIsSaving('loading'));
+        dispatch(setStatus('loading'));
 
         const newEntry = {
             type: entryContent.postType,
@@ -56,6 +56,18 @@ export const startDeletingEntry = (entryId) => {
         
         const docRef = doc(FirebaseDB, `id-admin/raices/entries/${entryId}`)
         await deleteDoc(docRef);
+
+        dispatch(deleteEntryById(entryId));
+    }
+}
+
+export const startLoadingEntryForUpdate = (entryId) => {
+    return async( dispatch) => {
+        dispatch(setStatus('loading'));
+
+        dispatch(setEntryForEdition(entryId));
+
+        dispatch(setStatus('idle'));
     }
 }
 

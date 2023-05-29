@@ -3,10 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 export const entriesSlice = createSlice({
     name: 'entries',
     initialState: {
-        isSaving: 'new', // 'succeeded' | 'failed' | 'new' | 'loading'
         status: 'idle', // 'loading' | 'succeeded' | 'failed'
         entries: [],
         publishedEntries: [],
+        entryForEdition: null,
         errorMessage: null,
     },
     reducers: {
@@ -14,18 +14,18 @@ export const entriesSlice = createSlice({
             state.entries = action.payload;
             state.errorMessage = null;
         },
-        setIsSaving: (state, action) => {
-            state.isSaving = action.payload;
-        },
         setStatus: (state, action) => {
             state.status = action.payload;
+        },
+        setEntryForEdition: (state, action) => {
+            state.entryForEdition = state.entries.find(entry => entry.id === action.payload);
         },
         getEntryById: (state, entryId) => {
             state.entries.find(entry => entry.id === entryId);
         },
         addNewEntry: (state, action) => {
             state.entries.push(action.payload);
-            state.isSaving = 'succeeded';
+            state.status = 'succeeded';
         },
         updateEntry: (state, action) => {
             
@@ -34,7 +34,7 @@ export const entriesSlice = createSlice({
             
         },
         deleteEntryById: (state, action) => {
-            
+            state.entries = state.entries.filter(entry => entry.id !== action.payload);
         },
         setErrorMessage: (state, action) => {
             state.errorMessage = action.payload;
@@ -48,8 +48,8 @@ export const entriesSlice = createSlice({
  // Action creators are generated for each case reducer function 
 export const { 
     setEntries, 
-    setIsSaving, 
     setStatus,
+    setEntryForEdition,
     getEntryById, 
     addNewEntry, 
     updateEntry, 
