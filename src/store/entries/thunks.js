@@ -1,7 +1,8 @@
 import { collection, deleteDoc, doc, setDoc } from 'firebase/firestore/lite'
 import { FirebaseDB } from '../../firebase/config';
 import { loadEntries } from '../../helpers/loadEntries';
-import { addNewEntry, deleteEntryById, setEntries, setEntryForEdition, setErrorMessage, setStatus } from './entriesSlice';
+import { addNewEntry, deleteEntryById, setEntries, setEntryForEdition, setEntryForEditionById, setErrorMessage, setStatus } from './entriesSlice';
+import { loadEntryById } from '../../helpers/loadEntryById';
 
 
 export const startAddNewEntry = (entryContent) => {
@@ -37,7 +38,7 @@ export const startAddNewEntry = (entryContent) => {
 export const startLoadingEntries = () => {
     return async (dispatch) => {
         dispatch(setStatus('loading'));
-
+        // get documents from a collection
         const entries = await loadEntries();
         
         // dispatch error here if entries doesn't have data
@@ -62,10 +63,21 @@ export const startDeletingEntry = (entryId) => {
 }
 
 export const startLoadingEntryForUpdate = (entryId) => {
-    return async( dispatch) => {
+    return async( dispatch, getState) => {
         dispatch(setStatus('loading'));
+        // it will set an entry if there is something in the getState().entries.entries
+        dispatch(setEntryForEditionById(entryId));
 
-        dispatch(setEntryForEdition(entryId));
+        // check the state after setEntryForEditionById(entryId)
+        const {entryForEdition, status} = getState().entries;
+        // if entryForEdition doesn't exist, it fetches the entry from the database
+        if ( !entryForEdition && status === 'loading') {
+            dispatch(setStatus('loading'));
+            // fetch entry
+            const entry = await loadEntryById(entryId);
+            console.log('algopasa en entries thunks');
+            dispatch(setEntryForEdition(entry));
+        }
 
         dispatch(setStatus('idle'));
     }

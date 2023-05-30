@@ -17,8 +17,11 @@ export const entriesSlice = createSlice({
         setStatus: (state, action) => {
             state.status = action.payload;
         },
-        setEntryForEdition: (state, action) => {
+        setEntryForEditionById: (state, action) => {
             state.entryForEdition = state.entries.find(entry => entry.id === action.payload);
+        },
+        setEntryForEdition: (state, action) => {
+            state.entryForEdition = action.payload;
         },
         getEntryById: (state, entryId) => {
             state.entries.find(entry => entry.id === entryId);
@@ -49,6 +52,7 @@ export const entriesSlice = createSlice({
 export const { 
     setEntries, 
     setStatus,
+    setEntryForEditionById,
     setEntryForEdition,
     getEntryById, 
     addNewEntry, 

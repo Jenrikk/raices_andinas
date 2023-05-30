@@ -10,15 +10,18 @@ export const EditFormComponent = () => {
   const dispatch = useDispatch();
 
   const { entryForEdition } = useSelector(state => state.entries);
-  console.log(entryForEdition);
+  
   
 
 
   // useEffect which execute thunk
   useEffect(() => {
-
     dispatch(startLoadingEntryForUpdate(entryId));
+
   }, [])
+
+  console.log(entryForEdition);
+
 
   if(entryForEdition === undefined){
     return <Typography variant='h4' sx={{m: 2}}>No se pudo encontrar la entrada</Typography>
