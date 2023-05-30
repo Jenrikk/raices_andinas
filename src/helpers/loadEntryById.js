@@ -1,16 +1,22 @@
-import { doc, getDoc} from "firebase/firestore/lite";
+import { doc, getDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../firebase/config";
 
 
 export const loadEntryById = async (entryId) => {
 
+    const docRef = doc(FirebaseDB, `id-admin/raices/entries`, entryId);
     try {
-        const docRef = doc(FirebaseDB, `id-admin/raices/entries`, entryId);
         const docSnap = await getDoc(docRef);
-
-        return docSnap.data();
+        if (docSnap.exists()) {
+            return {
+                id: docSnap.id,
+                ...docSnap.data()
+            }
+        }else {
+            return { code: 'Document does not exist', name: 'La entrada no existe' }
+        }
 
     } catch (err) {
-        return {code: err.code, name: err.name}
+        return { code: err, name: err }
     }
 }

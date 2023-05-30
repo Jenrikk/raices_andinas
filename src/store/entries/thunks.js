@@ -75,7 +75,9 @@ export const startLoadingEntryForUpdate = (entryId) => {
             dispatch(setStatus('loading'));
             // fetch entry
             const entry = await loadEntryById(entryId);
-            console.log('algopasa en entries thunks');
+            // dispatch error here if entry doesn't have data
+            if ( entry.code ) return dispatch( setErrorMessage(`${entry.code}, ${entry.name}`));
+            // If everything is OK, it set the entry
             dispatch(setEntryForEdition(entry));
         }
 

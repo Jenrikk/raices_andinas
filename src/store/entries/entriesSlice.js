@@ -19,9 +19,11 @@ export const entriesSlice = createSlice({
         },
         setEntryForEditionById: (state, action) => {
             state.entryForEdition = state.entries.find(entry => entry.id === action.payload);
+            state.errorMessage = null;
         },
         setEntryForEdition: (state, action) => {
             state.entryForEdition = action.payload;
+            state.errorMessage = null;
         },
         getEntryById: (state, entryId) => {
             state.entries.find(entry => entry.id === entryId);

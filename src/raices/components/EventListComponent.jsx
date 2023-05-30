@@ -12,19 +12,16 @@ import { EntryItemComponent } from './EntryItemComponent';
 
 export const EventListComponent = () => {
     const { status } = useSelector(state => state.auth);
-    const { errorMessage } = useSelector(state => state.entries);
-    const entriesStatus = useSelector(state => state.entries.status);
-    const { entries } = useSelector(state => state.entries);
+    const { entries, errorMessage, status:entriesStatus } = useSelector(state => state.entries);
     const dispatch = useDispatch();
 
-    console.log(entriesStatus)
 
     useEffect(() => {
-        if (entriesStatus === 'idle') {
+        // if (entriesStatus === 'idle') {
             dispatch(startLoadingEntries());
-        }
+        // }
 
-    }, []);
+    }, [dispatch]);
 
     console.log('soy EventListComponent');
 
