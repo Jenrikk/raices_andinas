@@ -62,7 +62,7 @@ export const EntryItemComponent = ({entry}) => {
                             to='/event/new'>
 
                         </Button>
-                        <Button size="small" color='info' component={Link} to={`/event/${entry.id}`} >
+                        <Button size="small" color='info' component={Link} to={`/event/edit/${entry.id}`} >
                             <EditOutlined />
                             Editar
                         </Button>

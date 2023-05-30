@@ -7,7 +7,7 @@ export const EventRoutes = () => {
   return (
     <Routes>
         <Route path="new" element={ <AddEventPage /> } />
-        <Route path=":entryId" element={ <EditEntryPage /> } />
+        <Route path="edit/:entryId" element={ <EditEntryPage /> } />
 
         <Route path="/*" element={ <Navigate to="/event/new" /> } />
 
