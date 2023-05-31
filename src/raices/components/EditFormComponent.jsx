@@ -37,17 +37,19 @@ export const EditFormComponent = () => {
     }, [])
 
     console.log(entryForEdition);
-    const [entryData, setEntryData] = useState({})
-    const initialState = {
-        coverImg: entryForEdition?.cover_img,
-        title: entryForEdition?.title,
-        description: entryForEdition?.description,
-        imgPath: entryForEdition?.imagesPath,
-    }
+    // const [entryData, setEntryData] = useState({})
+    // const initialState = {
+    //     coverImg: entryForEdition?.cover_img,
+    //     title: entryForEdition?.title,
+    //     description: entryForEdition?.description,
+    //     imgPath: entryForEdition?.imagesPath,
+    // }
 
-    const { control, handleSubmit } = useForm({
-        defaultValues: initialState,
-    });
+    const { control, handleSubmit } = useForm(
+        // {
+        //     defaultValues: initialState,
+        // }
+    );
 
 
 
