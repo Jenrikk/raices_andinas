@@ -33,7 +33,7 @@ export const FormComponent = ({ postType }) => {
   console.log('soyFormComponent');
   // with these 2 lines it handle the coverImg field:
   const fileInputRef = useRef();
-  const { imageFile, onFileInputChange } = useOnFileInputChange(folderPath);
+  const { imageFile, onFileInputChange, setImageFile } = useOnFileInputChange(folderPath);
 
 
   const handleSubmit = (e) => {

@@ -33,6 +33,7 @@ export const useOnFileInputChange = ( imagenPath ) => {
 
     return {
         imageFile,
-        onFileInputChange
+        onFileInputChange,
+        setImageFile
     }
 }
