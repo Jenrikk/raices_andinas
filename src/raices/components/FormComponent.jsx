@@ -15,6 +15,7 @@ import { Save, UploadFileOutlined } from '@mui/icons-material';
 import { Box, Button, CircularProgress, Grid, IconButton, Paper, TextField, Typography } from '@mui/material'
 
 import { startAddNewEntry, } from '../../store/entries/thunks';
+import { useOnFileInputChange } from '../../hooks/useOnFileInputChange';
 
 Quill.register('modules/imageResize', ImageResize)
 
@@ -25,41 +26,15 @@ export const FormComponent = ({ postType }) => {
   // get the path we'll use to upload the images:
   const { folderPath } = useGetLastFolder(postType);
 
-  const [imageFile, setImageFile] = useState('');
-
   const { status } = useSelector(state => state.entries);
 
   const quillRef = useRef();
 
   console.log('soyFormComponent');
-
+  // with these 2 lines it handle the coverImg field:
   const fileInputRef = useRef();
-  const onFileInputChange = async (ev) => {
-    if (ev.target.files === 0) return; // exit if we resign to set a file the first time
-    if (!ev.target.files[0]) return; // exit if we resign to change the existing file
+  const { imageFile, onFileInputChange } = useOnFileInputChange(folderPath);
 
-    const file = ev.target.files[0];
-    // get the path (value) set on the TextField with id="imagenPath"
-    const imagenPath = document.getElementById('imagenPath').value;
-
-    try {
-      // File name: "image/event/imageName" || "image/project/imageName"
-      const storageRef = ref(
-        FirebaseStorage,
-        `${imagenPath}/${file.name}`
-      );
-      // Firebase Method : uploadBytes, getDownloadURL
-      await uploadBytes(storageRef, file).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          setImageFile(url);
-        });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-
-
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
