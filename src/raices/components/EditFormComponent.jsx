@@ -30,11 +30,27 @@ export const EditFormComponent = () => {
 
     const { entryForEdition, errorMessage, status } = useSelector(state => state.entries);
 
+    const { control, handleSubmit, reset } = useForm({
+            defaultValues: {
+                title: ""
+            }
+    });
+    
+
     // it gets the entry with the URL params
     useEffect(() => {
         dispatch(startLoadingEntryForUpdate(entryId));
+        
 
     }, [])
+
+    useEffect(() => {
+        let defa = {
+            title: entryForEdition?.title
+        }
+
+        reset(defa);
+    },[entryForEdition])
 
     console.log(entryForEdition);
     // const [entryData, setEntryData] = useState({})
@@ -45,11 +61,7 @@ export const EditFormComponent = () => {
     //     imgPath: entryForEdition?.imagesPath,
     // }
 
-    const { control, handleSubmit } = useForm(
-        // {
-        //     defaultValues: initialState,
-        // }
-    );
+    
 
 
 
@@ -62,7 +74,7 @@ export const EditFormComponent = () => {
 
     const quillRef = useRef();
 
-    console.log('soyFormComponent');
+    console.log('soyEditFormComponent');
     // with these 2 lines it handle the coverImg field:
     const fileInputRef = useRef();
     const { imageFile, onFileInputChange, setImageFile } = useOnFileInputChange(folderPath);
