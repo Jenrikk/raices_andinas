@@ -67,7 +67,7 @@ export const FormComponent = ({ postType }) => {
 
   };
 
-
+  // editor image handler
   const imageHandler = () => {
     // get the path (value) set on the TextField with id="imagenPath"
     const imagenPath = document.getElementById('imagenPath').value;

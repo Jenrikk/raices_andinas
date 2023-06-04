@@ -24,52 +24,37 @@ Quill.register('modules/imageResize', ImageResize)
 
 
 export const EditFormComponent = () => {
-
     const { entryId } = useParams();
     const dispatch = useDispatch();
 
     const { entryForEdition, errorMessage, status } = useSelector(state => state.entries);
 
     const { control, handleSubmit, reset } = useForm({
-            defaultValues: {
-                title: ""
-            }
+        defaultValues: {
+            coverImg: "",
+            title: "",
+            description: "",
+            imgPath: "",
+        }
     });
-    
 
     // it gets the entry with the URL params
     useEffect(() => {
         dispatch(startLoadingEntryForUpdate(entryId));
-        
-
     }, [])
 
+    // reset the defaultValues of useForm with the entry data
     useEffect(() => {
-        let defa = {
-            title: entryForEdition?.title
+        let entryData = {
+            title: entryForEdition?.title,
+            coverImg: entryForEdition?.cover_img,
+            imgPath: entryForEdition?.imagesPath
         }
-
-        reset(defa);
-    },[entryForEdition])
+        reset(entryData);
+        
+    }, [entryForEdition])
 
     console.log(entryForEdition);
-    // const [entryData, setEntryData] = useState({})
-    // const initialState = {
-    //     coverImg: entryForEdition?.cover_img,
-    //     title: entryForEdition?.title,
-    //     description: entryForEdition?.description,
-    //     imgPath: entryForEdition?.imagesPath,
-    // }
-
-    
-
-
-
-
-
-    // get the path we'll use to upload the images:
-    const postType = 'event'
-    const { folderPath } = useGetLastFolder(postType);
 
 
     const quillRef = useRef();
@@ -77,7 +62,7 @@ export const EditFormComponent = () => {
     console.log('soyEditFormComponent');
     // with these 2 lines it handle the coverImg field:
     const fileInputRef = useRef();
-    const { imageFile, onFileInputChange, setImageFile } = useOnFileInputChange(folderPath);
+    const { imageFile, onFileInputChange, setImageFile } = useOnFileInputChange(entryForEdition?.imagesPath);
 
 
     const onSubmit = (e) => {
@@ -171,7 +156,7 @@ export const EditFormComponent = () => {
 
             <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 1, mt: 1 }}>
                 <Typography sx={{ typography: { xs: 'h4', sm: 'h3', md: 'h2' } }}>
-                    Estas agregando un {postType}
+                    Estás editando: "{entryForEdition.title}"
                 </Typography>
             </Grid>
 
@@ -212,7 +197,25 @@ export const EditFormComponent = () => {
                                 >
                                     <UploadFileOutlined />
                                 </IconButton>
-                                <TextField
+
+                                <Controller
+                                    name="coverImg"
+                                    control={control}
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                        <TextField
+                                            required
+                                            variant="outlined"
+                                            label="Imagen de Portada"
+                                            value={value}
+                                            onChange={onChange}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                            sx={{ minWidth: 260 }}
+                                        />
+                                    )}
+                                />
+                                {/* <TextField
                                     name='coverImg'
                                     required
                                     variant="outlined"
@@ -222,7 +225,7 @@ export const EditFormComponent = () => {
                                         readOnly: true,
                                     }}
                                     sx={{ minWidth: 260 }}
-                                />
+                                /> */}
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1, }}>
@@ -255,16 +258,22 @@ export const EditFormComponent = () => {
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
-                                <TextField
-                                    id='imagenPath'
-                                    name='imgPath'
-                                    variant="outlined"
-                                    label="Carpeta donde iran tus imagenes"
-                                    value={folderPath}
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                    sx={{ minWidth: 300 }}
+
+                                <Controller
+                                    name="imgPath"
+                                    control={control}
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                        <TextField
+                                            id='imagenPath'
+                                            variant="outlined"
+                                            label="Carpeta donde iran tus imagenes"
+                                            value={value}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                            sx={{ minWidth: 300 }}
+                                        />
+                                    )}
                                 />
                             </Grid>
 
