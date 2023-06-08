@@ -29,7 +29,7 @@ export const EditFormComponent = () => {
 
     const { entryForEdition, errorMessage, status } = useSelector(state => state.entries);
 
-    const { control, handleSubmit, reset } = useForm({
+    const { control, handleSubmit, reset, register } = useForm({
         defaultValues: {
             coverImg: "",
             title: "",
@@ -51,7 +51,7 @@ export const EditFormComponent = () => {
             imgPath: entryForEdition?.imagesPath
         }
         reset(entryData);
-        
+
     }, [entryForEdition])
 
     console.log(entryForEdition);
@@ -243,6 +243,14 @@ export const EditFormComponent = () => {
                                         />
                                     )}
                                 />
+                                {/* -/-/-/-/-/-/-/-/-/-/-/-/-/-/-/ */}
+                                {/* <TextField
+                                    required
+                                    variant="outlined"
+                                    label="Titulo"
+                                    {...register("title")}
+                                    sx={{ minWidth: 300 }}
+                                /> */}
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
