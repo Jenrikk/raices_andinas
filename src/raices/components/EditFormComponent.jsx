@@ -17,7 +17,7 @@ import { Box, Button, CircularProgress, Grid, IconButton, Paper, TextField, Typo
 import { startAddNewEntry, startLoadingEntryForUpdate, } from '../../store/entries/thunks';
 import { useOnFileInputChange } from '../../hooks/useOnFileInputChange';
 import { useParams } from 'react-router-dom';
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useController } from "react-hook-form";
 
 Quill.register('modules/imageResize', ImageResize)
 
@@ -29,14 +29,20 @@ export const EditFormComponent = () => {
 
     const { entryForEdition, errorMessage, status } = useSelector(state => state.entries);
 
-    const { control, handleSubmit, reset, register } = useForm({
+    const { control, handleSubmit, reset, register, setValue  } = useForm({
         defaultValues: {
             coverImg: "",
-            title: "",
-            description: "",
-            imgPath: "",
+            // title: "",
+            // description: "",
+            // imgPath: "",
         }
     });
+
+
+    const handleChange = (event) => {
+        setValue('coverImg', event.target.value);
+        console.log('sdfsafsdfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+    };
 
     // it gets the entry with the URL params
     useEffect(() => {
@@ -48,6 +54,7 @@ export const EditFormComponent = () => {
         let entryData = {
             title: entryForEdition?.title,
             coverImg: entryForEdition?.cover_img,
+            description: entryForEdition?.description,
             imgPath: entryForEdition?.imagesPath
         }
         reset(entryData);
@@ -180,6 +187,11 @@ export const EditFormComponent = () => {
 
                             <Grid item xs={12} sm={12} md={12} sx={{ mt: 3, mb: 1, display: 'flex' }}>
                                 <input
+                                    type="file" name='coverImg' ref={ref}
+                                    onChange={handleChange}
+                                    accept="image/png, image/jpeg"
+                                />
+                                <input
                                     type="file" ref={fileInputRef}
                                     onChange={onFileInputChange}
                                     accept="image/png, image/jpeg" style={{ display: 'none' }}
@@ -200,6 +212,7 @@ export const EditFormComponent = () => {
 
                                 <Controller
                                     name="coverImg"
+                                    defaultValue=''
                                     control={control}
                                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                                         <TextField
@@ -211,7 +224,7 @@ export const EditFormComponent = () => {
                                             InputProps={{
                                                 readOnly: true,
                                             }}
-                                            sx={{ minWidth: 260 }}
+                                            sx={{ minWidth: 460 }}
                                         />
                                     )}
                                 />
@@ -231,6 +244,7 @@ export const EditFormComponent = () => {
                             <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1, }}>
                                 <Controller
                                     name="title"
+                                    defaultValue=''
                                     control={control}
                                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                                         <TextField
@@ -239,7 +253,7 @@ export const EditFormComponent = () => {
                                             label="Titulo"
                                             value={value}
                                             onChange={onChange}
-                                            sx={{ minWidth: 300 }}
+                                            sx={{ minWidth: 500 }}
                                         />
                                     )}
                                 />
@@ -254,7 +268,24 @@ export const EditFormComponent = () => {
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
-                                <TextField
+                                <Controller
+                                    name="description"
+                                    defaultValue=''
+                                    control={control}
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                        <TextField
+                                            required
+                                            variant="outlined"
+                                            label="Descripción"
+                                            value={value}
+                                            onChange={onChange}
+                                            sx={{ minWidth: 500 }}
+                                            multiline
+                                            rows={4}
+                                        />
+                                    )}
+                                />
+                                {/* <TextField
                                     name='description'
                                     required
                                     label="Descripción"
@@ -262,13 +293,14 @@ export const EditFormComponent = () => {
                                     rows={4}
                                     variant="outlined"
                                     sx={{ minWidth: 300 }}
-                                />
+                                /> */}
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
 
                                 <Controller
                                     name="imgPath"
+                                    defaultValue=''
                                     control={control}
                                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                                         <TextField
@@ -279,7 +311,7 @@ export const EditFormComponent = () => {
                                             InputProps={{
                                                 readOnly: true,
                                             }}
-                                            sx={{ minWidth: 300 }}
+                                            sx={{ minWidth: 500 }}
                                         />
                                     )}
                                 />
