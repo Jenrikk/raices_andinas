@@ -2,7 +2,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useState } from 'react';
 import { FirebaseStorage } from '../firebase/config';
 
-export const useOnFileInputChange = ( imagenPath ) => {
+export const useOnFileInputChange = ( imagenPath, setValueRHF = () => {} ) => {
     const [imageFile, setImageFile] = useState('');
   
     
@@ -23,6 +23,8 @@ export const useOnFileInputChange = ( imagenPath ) => {
           await uploadBytes(storageRef, file).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
               setImageFile(url);
+              //this line is necessary only for EditFormComponent
+              setValueRHF('coverImg', url) 
             });
           });
         } catch (error) {

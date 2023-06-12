@@ -29,20 +29,8 @@ export const EditFormComponent = () => {
 
     const { entryForEdition, errorMessage, status } = useSelector(state => state.entries);
 
-    const { control, handleSubmit, reset, register, setValue  } = useForm({
-        defaultValues: {
-            coverImg: "",
-            // title: "",
-            // description: "",
-            // imgPath: "",
-        }
-    });
+    const { control, handleSubmit, reset, register, setValue, formState  } = useForm();
 
-
-    const handleChange = (event) => {
-        setValue('coverImg', event.target.value);
-        console.log('sdfsafsdfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-    };
 
     // it gets the entry with the URL params
     useEffect(() => {
@@ -69,7 +57,7 @@ export const EditFormComponent = () => {
     console.log('soyEditFormComponent');
     // with these 2 lines it handle the coverImg field:
     const fileInputRef = useRef();
-    const { imageFile, onFileInputChange, setImageFile } = useOnFileInputChange(entryForEdition?.imagesPath);
+    const { onFileInputChange, setImageFile } = useOnFileInputChange(entryForEdition?.imagesPath, setValue);
 
 
     const onSubmit = (e) => {
@@ -178,7 +166,7 @@ export const EditFormComponent = () => {
                                 {
                                     (status === "loading")
                                         ? <CircularProgress color='error' size={30} />
-                                        : <Button color='inherit' type='submit' disabled={(imageFile === '')}>
+                                        : <Button color='inherit' type='submit' disabled={(formState?.defaultValues?.coverImg === '')}>
                                             <Save />
                                         </Button>
                                 }
@@ -186,11 +174,7 @@ export const EditFormComponent = () => {
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={12} sx={{ mt: 3, mb: 1, display: 'flex' }}>
-                                <input
-                                    type="file" name='coverImg' ref={ref}
-                                    onChange={handleChange}
-                                    accept="image/png, image/jpeg"
-                                />
+                               
                                 <input
                                     type="file" ref={fileInputRef}
                                     onChange={onFileInputChange}
@@ -202,7 +186,7 @@ export const EditFormComponent = () => {
                                     onClick={() => fileInputRef.current.click()}
                                     sx={{
                                         color:
-                                            (imageFile === '')
+                                            (formState?.defaultValues?.coverImg === '')
                                                 ? 'red'
                                                 : 'inherit'
                                     }}
@@ -228,17 +212,6 @@ export const EditFormComponent = () => {
                                         />
                                     )}
                                 />
-                                {/* <TextField
-                                    name='coverImg'
-                                    required
-                                    variant="outlined"
-                                    label="Imagen de Portada"
-                                    value={imageFile}
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                    sx={{ minWidth: 260 }}
-                                /> */}
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1, }}>
@@ -257,14 +230,6 @@ export const EditFormComponent = () => {
                                         />
                                     )}
                                 />
-                                {/* -/-/-/-/-/-/-/-/-/-/-/-/-/-/-/ */}
-                                {/* <TextField
-                                    required
-                                    variant="outlined"
-                                    label="Titulo"
-                                    {...register("title")}
-                                    sx={{ minWidth: 300 }}
-                                /> */}
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
@@ -285,15 +250,6 @@ export const EditFormComponent = () => {
                                         />
                                     )}
                                 />
-                                {/* <TextField
-                                    name='description'
-                                    required
-                                    label="Descripción"
-                                    multiline
-                                    rows={4}
-                                    variant="outlined"
-                                    sx={{ minWidth: 300 }}
-                                /> */}
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={12} sx={{ mt: 2, mb: 1 }}>
