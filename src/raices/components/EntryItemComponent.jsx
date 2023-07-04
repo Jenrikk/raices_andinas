@@ -14,7 +14,7 @@ export const EntryItemComponent = ({entry}) => {
     const dispatch = useDispatch();
 
     const newDescription = useMemo(() => {
-        return entry.description.length > 190
+        return entry.description?.length > 190
                 ? entry.description.substring(0, 190) + '...'
                 : entry.description;
 

@@ -37,7 +37,7 @@ export const EditFormComponent = () => {
         dispatch(startLoadingEntryForUpdate(entryId));
     }, [])
 
-    // reset the defaultValues of useForm with the entry data
+    // reset the defaultValues of useForm with the entry data (populated data)
     useEffect(() => {
         let entryData = {
             title: entryForEdition?.title,

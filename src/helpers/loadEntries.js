@@ -16,7 +16,6 @@ export const loadEntries = async () => {
                 }
             );
         });
-
         return allEntries;
 
     } catch (err) {
